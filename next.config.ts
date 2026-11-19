@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseHost = supabaseUrl ? new URL(supabaseUrl) : null;
 const isLocalSupabase = supabaseHost ? ["localhost", "127.0.0.1"].includes(supabaseHost.hostname) : false;
+const devOrigins = (process.env.DEV_ALLOWED_ORIGINS ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 
 const nextConfig: NextConfig = {
   // The site is almost entirely live data (stock, prices, dashboard), so it uses
@@ -20,6 +24,15 @@ const nextConfig: NextConfig = {
         ? [{ protocol: supabaseHost.protocol.replace(":", "") as "http" | "https", hostname: supabaseHost.hostname, pathname: "/storage/v1/object/public/**" }]
         : []),
     ],
+  },
+  // Local preview through a remote address: extra hosts allowed to use the dev
+  // server and Server Actions (comma separated). Empty by default.
+  allowedDevOrigins: devOrigins,
+  experimental: devOrigins.length ? { serverActions: { allowedOrigins: devOrigins } } : {},
+  async rewrites() {
+    // Local preview only (NEXT_PUBLIC_SUPABASE_VIA_SITE=true): forward /supabase/* to Supabase.
+    if (process.env.NEXT_PUBLIC_SUPABASE_VIA_SITE !== "true" || !supabaseUrl) return [];
+    return [{ source: "/supabase/:path*", destination: `${supabaseUrl.replace(/\/$/, "")}/:path*` }];
   },
   turbopack: {
     rules: {

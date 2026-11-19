@@ -77,6 +77,6 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     // Everything except Next internals, API routes, metadata files and static assets.
-    "/((?!_next/|api/|brand/|favicon|icon|apple-icon|robots.txt|sitemap.xml|manifest|.*\\.(?:png|jpg|jpeg|webp|svg|ico|txt|xml|webmanifest)$).*)",
+    "/((?!_next/|api/|supabase/|brand/|favicon|icon|apple-icon|robots.txt|sitemap.xml|manifest|.*\\.(?:png|jpg|jpeg|webp|svg|ico|txt|xml|webmanifest)$).*)",
   ],
 };

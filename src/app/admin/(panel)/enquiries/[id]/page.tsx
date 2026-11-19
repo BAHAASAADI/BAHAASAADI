@@ -7,7 +7,7 @@ import { WhatsAppIcon } from "@/components/brand";
 import { buttonClass, Field, Input, Select, Textarea } from "@/components/ui";
 import { hasRole, requireAdmin } from "@/lib/admin/auth";
 import { dateTime, getLookups, money } from "@/lib/admin/data";
-import { TRADE_IN_PHOTOS_BUCKET } from "@/lib/env";
+import { toBrowserUrl, TRADE_IN_PHOTOS_BUCKET } from "@/lib/env";
 import { formatStorage, whatsappLink } from "@/lib/format";
 import en from "@/lib/i18n/dictionaries/en";
 import { ENQUIRY_STATUSES, FUNCTION_KEYS, type TradeInEnquiry } from "@/lib/types";
@@ -160,9 +160,9 @@ export default async function EnquiryPage({ params }: { params: Promise<{ id: st
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {signed.map((s, i) =>
                   s.signedUrl ? (
-                    <a key={s.path ?? i} href={s.signedUrl} target="_blank" rel="noopener noreferrer" className="block aspect-square overflow-hidden rounded-xl border border-line">
+                    <a key={s.path ?? i} href={toBrowserUrl(s.signedUrl)} target="_blank" rel="noopener noreferrer" className="block aspect-square overflow-hidden rounded-xl border border-line">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={s.signedUrl} alt={`Customer photo ${i + 1}`} className="h-full w-full object-cover" />
+                      <img src={toBrowserUrl(s.signedUrl)} alt={`Customer photo ${i + 1}`} className="h-full w-full object-cover" />
                     </a>
                   ) : null,
                 )}
