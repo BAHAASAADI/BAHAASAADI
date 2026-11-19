@@ -55,7 +55,32 @@ export default async function EnquiriesPage({ searchParams }: { searchParams: Pr
       ) : null}
       {error ? <Empty>{error.message}</Empty> : null}
       {rows.length ? (
-        <div className={tableWrap}>
+        <ul className="space-y-3 md:hidden">
+          {rows.map((e) => (
+            <li key={e.id}>
+              <Link href={`/admin/enquiries/${e.id}`} className="block rounded-2xl border border-line p-4">
+                <span className="flex items-start justify-between gap-2">
+                  <span className="font-medium">
+                    {e.model_name} {formatStorage(e.storage_gb)}
+                  </span>
+                  <EnquiryStatusBadge status={e.status} />
+                </span>
+                <span className="block text-xs text-grey">
+                  {e.reference} · {dateTime(e.created_at)} · {CONDITION_LABEL[e.condition]} · {e.battery_health ?? "—"}%
+                </span>
+                <span className="mt-2 block text-sm">
+                  {e.customer_name} <span className="text-grey" dir="ltr">{e.customer_phone}</span>
+                </span>
+                <span className="mt-1 block text-sm">
+                  {e.final_offer != null ? `Final ${money(e.final_offer, e.final_currency ?? e.currency)}` : e.estimated_offer != null ? `Estimate ${money(e.estimated_offer, e.currency)}` : "No online price"}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {rows.length ? (
+        <div className={`${tableWrap} hidden md:block`}>
           <table className={table}>
             <thead>
               <tr>

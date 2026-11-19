@@ -77,7 +77,7 @@ export default async function EnquiryPage({ params }: { params: Promise<{ id: st
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
         <div className="space-y-6">
-          <Panel title="Customer">
+          <Panel title="Customer" actions={e.customer_id ? <Link href={`/admin/customers/${e.customer_id}`} className="text-xs text-grey hover:text-white">Customer history →</Link> : null}>
             <dl className="grid gap-3 text-sm sm:grid-cols-3">
               <div>
                 <dt className="text-grey">Name</dt>

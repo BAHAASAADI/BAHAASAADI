@@ -40,7 +40,9 @@ test("visitors cannot read private data or write to the database", async ({ requ
   const headers = { apikey: ANON, "content-type": "application/json" };
   for (const table of ["trade_in_enquiries", "customers", "purchases", "sales", "admins", "product_private", "price_history"]) {
     const r = await request.get(`${SUPABASE_URL}/rest/v1/${table}?select=*`, { headers });
-    expect(await r.json(), table).toEqual([]);
+    // Either refused outright or filtered to nothing by row level security.
+    if (r.ok()) expect(await r.json(), table).toEqual([]);
+    else expect(r.status(), table).toBeGreaterThanOrEqual(401);
   }
   const insert = await request.post(`${SUPABASE_URL}/rest/v1/products`, { headers, data: { color: "x" } });
   expect(insert.status()).toBeGreaterThanOrEqual(400);

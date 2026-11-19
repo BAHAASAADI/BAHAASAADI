@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
+import { AutoSubmitSelect } from "@/components/site/auto-submit-select";
 import { ProductCard, ProductGrid } from "@/components/site/product-card";
 import { buttonClass, Field, Input, Select } from "@/components/ui";
 import { convert } from "@/lib/currency";
@@ -195,7 +196,7 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
 
       <div className="grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside>
-          <details className="group rounded-[var(--radius-card)] border border-line p-5 lg:hidden" open={activeFilters > 0 ? undefined : undefined}>
+          <details className="group rounded-[var(--radius-card)] border border-line p-5 lg:hidden">
             <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-medium">
               <span className="flex items-center gap-2">
                 <SlidersHorizontal className="h-4 w-4" aria-hidden="true" /> {dict.catalogue.filters}
@@ -222,15 +223,17 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
               <label htmlFor="sort" className="text-xs text-grey">
                 {dict.catalogue.sort}
               </label>
-              <Select id="sort" name="sort" defaultValue={f.sort} className="!w-auto !py-2 text-xs">
+              <AutoSubmitSelect id="sort" name="sort" defaultValue={f.sort} className="!w-auto !py-2 text-xs">
                 <option value="newest">{dict.catalogue.sortNewest}</option>
                 <option value="price_asc">{dict.catalogue.sortPriceAsc}</option>
                 <option value="price_desc">{dict.catalogue.sortPriceDesc}</option>
                 <option value="battery">{dict.catalogue.sortBattery}</option>
-              </Select>
-              <button type="submit" className={buttonClass("outline", "sm")}>
-                OK
-              </button>
+              </AutoSubmitSelect>
+              <noscript>
+                <button type="submit" className={buttonClass("outline", "sm")}>
+                  OK
+                </button>
+              </noscript>
             </form>
           </div>
 

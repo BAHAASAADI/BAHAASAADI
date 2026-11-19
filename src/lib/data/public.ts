@@ -19,7 +19,7 @@ import type {
 } from "@/lib/types";
 
 export const PRODUCT_SELECT =
-  "*, model:iphone_models(id,name,slug,sort_order), shop:shops(id,name,city,whatsapp,phone,currency,maps_url), photos:product_photos(id,product_id,path,sort_order)";
+  "*, model:iphone_models(id,name,slug,sort_order,display_inches,chip,biometrics,connector,has_5g), shop:shops(id,name,city,whatsapp,phone,currency,maps_url), photos:product_photos(id,product_id,path,sort_order)";
 
 function sortPhotos<T extends { photos: { sort_order: number }[] }>(rows: T[]): T[] {
   for (const r of rows) r.photos?.sort((a, b) => a.sort_order - b.sort_order);

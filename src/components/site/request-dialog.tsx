@@ -3,7 +3,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { X } from "lucide-react";
 import { Button, Field, Input, Notice, Spinner, Textarea } from "@/components/ui";
-import { createClient } from "@/lib/supabase/client";
+import { submitRequestAction } from "@/app/[locale]/actions";
 import type { RequestKind } from "@/lib/types";
 
 export interface RequestLabels {
@@ -60,12 +60,18 @@ export function RequestForm({
     }
     setStatus("sending");
     setError(null);
-    const { error: rpcError } = await createClient().rpc("submit_customer_request", {
-      p: { kind, product_id: productId ?? null, name, phone, email: String(data.get("email") ?? ""), message, locale },
-    });
-    if (rpcError) {
+    const result = await submitRequestAction({
+      kind,
+      product_id: productId ?? null,
+      name,
+      phone,
+      email: String(data.get("email") ?? ""),
+      message,
+      locale,
+    }).catch(() => ({ ok: false as const, error: "" }));
+    if (!result.ok) {
       setStatus("error");
-      setError(/no longer available/i.test(rpcError.message) ? labels.unavailable : labels.error);
+      setError(/no longer available/i.test(result.error) ? labels.unavailable : labels.error);
       return;
     }
     setStatus("sent");

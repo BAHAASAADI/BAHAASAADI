@@ -92,7 +92,26 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
             <StatCard label="Gross profit" value={money(sum(sales, "profit_main"), mainCurrency, 0)} hint={sales.some((s) => s.cost_main == null) ? "Some sales have no recorded cost" : undefined} />
           </div>
           {sales.length ? (
-            <div className={tableWrap}>
+            <ul className="space-y-3 md:hidden">
+              {sales.map((s) => (
+                <li key={s.id} className="rounded-2xl border border-line p-4 text-sm">
+                  <span className="flex justify-between gap-3">
+                    <span className="font-medium">{s.description}</span>
+                    <span>{money(s.price, s.currency)}</span>
+                  </span>
+                  <span className="block text-xs text-grey">
+                    {s.inventory_id} · {dateTime(s.sold_at, false)} · {s.shop_id ? shopById[s.shop_id]?.name : ""}
+                  </span>
+                  <span className="mt-1 block text-xs">
+                    Profit {s.profit_main != null ? money(s.profit_main, mainCurrency) : "unknown"}
+                    {s.customer_name ? ` · ${s.customer_name}` : ""}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {sales.length ? (
+            <div className={`${tableWrap} hidden md:block`}>
               <table className={table}>
                 <thead>
                   <tr>
@@ -156,7 +175,23 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
             <StatCard label="From suppliers" value={purchases.filter((p) => p.source === "supplier").length} />
           </div>
           {purchases.length ? (
-            <div className={tableWrap}>
+            <ul className="space-y-3 md:hidden">
+              {purchases.map((p) => (
+                <li key={p.id} className="rounded-2xl border border-line p-4 text-sm">
+                  <span className="flex justify-between gap-3">
+                    <span className="font-medium">{p.description}</span>
+                    <span>{money(p.price, p.currency)}</span>
+                  </span>
+                  <span className="block text-xs text-grey">
+                    {p.inventory_id} · {dateTime(p.purchased_at, false)} · {p.source === "trade_in" ? "Trade-in" : p.source === "customer" ? "Customer" : "Supplier"}
+                    {p.counterparty_name ? ` · ${p.counterparty_name}` : ""}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {purchases.length ? (
+            <div className={`${tableWrap} hidden md:block`}>
               <table className={table}>
                 <thead>
                   <tr>

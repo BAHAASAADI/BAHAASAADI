@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
   ArrowLeftRight,
+  BookUser,
   Building2,
   Coins,
   FileText,
@@ -54,6 +55,7 @@ export function AdminSidebar({
         { href: "/admin/inventory", label: "Inventory", icon: Smartphone },
         { href: "/admin/enquiries", label: "Trade-in enquiries", icon: Inbox, badge: counts.enquiries },
         { href: "/admin/requests", label: "Customer requests", icon: MessageSquare, badge: counts.requests },
+        { href: "/admin/customers", label: "Customers", icon: BookUser },
         { href: "/admin/transactions", label: "Sales & purchases", icon: Receipt },
         { href: "/admin/transfers", label: "Transfers", icon: ArrowLeftRight },
       ],

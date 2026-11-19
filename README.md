@@ -63,16 +63,19 @@ public/brand/               iZone logo, shop photo, social image
 ### 1. Create the Supabase project
 
 1. Create a project at [supabase.com](https://supabase.com). Choose a region close to your shops.
-2. Open **SQL Editor** and run the five files in `supabase/migrations/` **in order**, pasting each file and clicking *Run*:
+2. Open **SQL Editor** and run the six files in `supabase/migrations/` **in order**, pasting each file and clicking *Run*:
    1. `20261119000001_schema.sql`
    2. `20261119000002_functions.sql`
    3. `20261119000003_security.sql`
    4. `20261119000004_reference_data.sql`
    5. `20261119000005_admin_rpc.sql`
+   6. `20261119000006_grants_specs_customers.sql`
 
    Alternatively, with the Supabase CLI: `supabase link --project-ref <ref>` then `supabase db push`.
 
-   This creates every table, rule and security policy, the two photo buckets, the iPhone models from X to 18 Pro Max, the default deductions, FAQs and legal pages. It does **not** create any phones, shops, buying prices or reviews.
+   This creates every table, rule and security policy, the two photo buckets, the iPhone models from X to 18 Pro Max with their technical specifications, the default deductions, FAQs and legal pages. It does **not** create any phones, shops, buying prices or reviews.
+
+   Permissions are granted explicitly, so the app works whether or not your project exposes new tables to the API by default. Visitors can only read the public catalogue and content; everything else goes through row level security.
 
 ### 2. Configure authentication
 
@@ -104,6 +107,9 @@ Copy `.env.example` to `.env.local` for local development, and add the same valu
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` (or `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`) | Supabase → Project Settings → API keys → anon / publishable | yes |
 | `NEXT_PUBLIC_SITE_URL` | Your domain, e.g. `https://www.izone.com` | yes |
 | `SUPABASE_SERVICE_ROLE_KEY` (or `SUPABASE_SECRET_KEY`) | Supabase → API keys → service_role / secret | optional; lets the owner create team accounts from Dashboard → Team. Server-side only. |
+| `RESEND_API_KEY` | [resend.com](https://resend.com) → API Keys | optional; enables email alerts to the team |
+| `NOTIFY_EMAIL_TO` | Your email address(es), comma separated | with `RESEND_API_KEY` |
+| `NOTIFY_EMAIL_FROM` | A sender on a domain verified in Resend, e.g. `"iZone <alerts@izone.com>"` (keep the quotes) | with `RESEND_API_KEY` |
 
 Credentials are never placed in the code. The browser only ever receives the public anon/publishable key, and row level security protects all data.
 
@@ -170,6 +176,11 @@ These rules are enforced in the database, so they also apply to any direct use o
 
 ---
 
+## Customers and alerts
+
+- **Customers** (dashboard): everyone who sent a trade-in enquiry, reservation, question or message, plus customers recorded on sales, identified by telephone number. Each customer page shows their trade-ins, requests, phones bought and phones sold to iZone, with internal notes and one-click WhatsApp/call.
+- **Email alerts** (optional): with Resend configured, the team receives an email for every new trade-in enquiry (model, condition, battery, defects, estimate, photos count, customer, preferred shop, WhatsApp link and a link to the enquiry), reservation, question and contact message. Without it, the dashboard badges show new items.
+
 ## WhatsApp
 
 Each phone's WhatsApp button opens the shop's own WhatsApp number, or the main number if the shop has none. The pre-filled message contains the model, storage, colour, battery health, price and inventory ID.
@@ -182,8 +193,8 @@ Change the numbers in **Shops** and **Settings**.
 
 ## Testing
 
-- **Database tests**: `supabase/tests/database.test.sql` contains 47 checks of pricing maths, permissions, row level security, sales, transfers, bulk updates and the main-currency change. Run it against a local Supabase database (Supabase CLI) that has the three test users described at the top of the file.
-- **End-to-end tests** (Playwright, 25 tests) cover:
+- **Database tests**: `supabase/tests/database.test.sql` contains 51 checks of pricing maths, permissions, row level security, sales, transfers, bulk updates and the main-currency change. Run it against a local Supabase database (Supabase CLI) that has the three test users described at the top of the file.
+- **End-to-end tests** (Playwright, 31 tests) cover:
   - store setup;
   - adding and editing a phone with photos;
   - the catalogue and WhatsApp messages;
@@ -194,7 +205,10 @@ Change the numbers in **Shops** and **Settings**.
   - the full trade-in flow with photo upload, final offer and adding the phone to stock;
   - staff restrictions;
   - visitors being unable to read private data or write anything;
-  - languages and right-to-left layout, currency conversion, and mobile layout.
+  - languages and right-to-left layout, currency conversion, and mobile layout;
+  - technical details, customer history, email alerts (against a local stand-in for the email service) and the dashboard on a phone.
+
+  Both test suites were run against two database setups: one with Supabase's default privileges, and one with no default privileges at all.
 
   The end-to-end tests need the app running and an empty database with users `owner@izone.test`, `manager@izone.test` and `staff@izone.test`:
 

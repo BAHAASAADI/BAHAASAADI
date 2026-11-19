@@ -73,6 +73,11 @@ export interface IphoneModel {
   storages: number[];
   colors: string[];
   is_active: boolean;
+  display_inches: number | null;
+  chip: string | null;
+  biometrics: "Face ID" | "Touch ID" | null;
+  connector: "Lightning" | "USB-C" | null;
+  has_5g: boolean | null;
 }
 
 export interface ProductPhoto {
@@ -108,7 +113,7 @@ export interface Product {
 }
 
 export interface ProductWithRelations extends Product {
-  model: Pick<IphoneModel, "id" | "name" | "slug" | "sort_order"> | null;
+  model: Pick<IphoneModel, "id" | "name" | "slug" | "sort_order" | "display_inches" | "chip" | "biometrics" | "connector" | "has_5g"> | null;
   shop: Pick<Shop, "id" | "name" | "city" | "whatsapp" | "phone" | "currency" | "maps_url"> | null;
   photos: ProductPhoto[];
 }

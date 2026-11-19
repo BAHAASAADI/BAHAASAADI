@@ -90,7 +90,7 @@ export function ProductCard({
           </div>
         )}
         <div className="absolute start-3 top-3 flex gap-2">
-          {product.status === "reserved" ? <Badge tone="solid">{dict.common.reserved}</Badge> : null}
+          {product.status === "reserved" ? <Badge tone="solid">{dict.common.reserved}</Badge> : <Badge>{dict.common.available}</Badge>}
           {product.offer_price != null ? <Badge>{dict.common.offer}</Badge> : null}
         </div>
       </div>
@@ -116,6 +116,9 @@ export function ProductCard({
           ) : null}
           <span className="text-muted">{product.inventory_id}</span>
         </div>
+        <p className="text-xs text-grey">
+          {dict.product.parts}: {dict.product[`parts_${product.parts_status}`]}
+        </p>
         <div className="mt-auto pt-2">
           <PriceTag product={product} displayCurrency={displayCurrency} rates={rates} locale={locale} dict={dict} />
         </div>

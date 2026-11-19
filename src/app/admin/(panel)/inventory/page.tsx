@@ -100,7 +100,40 @@ export default async function InventoryPage({ searchParams }: { searchParams: Pr
       <p className="mb-3 text-sm text-grey">{rows.length} phone(s)</p>
 
       {rows.length ? (
-        <div className={tableWrap}>
+        <ul className="space-y-3 md:hidden">
+          {rows.map((p) => {
+            const cover = [...p.photos].sort((a, b) => a.sort_order - b.sort_order)[0];
+            return (
+              <li key={p.id}>
+                <Link href={`/admin/inventory/${p.id}`} className="flex gap-3 rounded-2xl border border-line p-3">
+                  <span className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line bg-black">
+                    {cover ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={publicPhotoUrl(cover.path)} alt="" className="h-full w-full object-cover" />
+                    ) : null}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-start justify-between gap-2">
+                      <span className="font-medium">
+                        {modelById[p.model_id]?.name} {formatStorage(p.storage_gb)}
+                      </span>
+                      <ProductStatusBadge status={p.status} />
+                    </span>
+                    <span className="block text-xs text-grey">
+                      {p.inventory_id} · {p.color} · {CONDITION_LABEL[p.condition]} · {p.battery_health ?? "—"}%
+                    </span>
+                    <span className="mt-1 block text-sm">
+                      {money(p.offer_price ?? p.price, p.currency)} <span className="text-xs text-grey">· {shopById[p.shop_id]?.name}</span>
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+      {rows.length ? (
+        <div className={`${tableWrap} hidden md:block`}>
           <table className={table}>
             <thead>
               <tr>

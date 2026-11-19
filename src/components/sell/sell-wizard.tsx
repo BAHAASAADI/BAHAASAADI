@@ -11,6 +11,7 @@ import { formatStorage, whatsappLink } from "@/lib/format";
 import { compressImage, randomFileName } from "@/lib/image";
 import { t, type Dictionary } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/client";
+import { submitTradeInAction } from "@/app/[locale]/actions";
 import { TRADE_IN_PHOTOS_BUCKET } from "@/lib/env";
 import {
   CONDITIONS,
@@ -202,11 +203,17 @@ export function SellWizard(props: Props) {
         }
       }
       setSubmitting("sending");
-      const { data, error: rpcError } = await supabase.rpc("submit_trade_in", {
-        p: { ...payload(), id: enquiryId, name: name.trim(), phone: phone.trim(), preferred_shop_id: shopId || null, photos: paths, locale },
+      const result = await submitTradeInAction({
+        ...payload(),
+        id: enquiryId,
+        name: name.trim(),
+        phone: phone.trim(),
+        preferred_shop_id: shopId || null,
+        photos: paths,
+        locale,
       });
-      if (rpcError) throw rpcError;
-      setReference((data as { reference: string }).reference);
+      if (!result.ok) throw new Error(result.error);
+      setReference(result.reference);
       go(8);
     } catch {
       setError(dict.common.error);

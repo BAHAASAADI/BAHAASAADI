@@ -1,7 +1,7 @@
 import { saveModel } from "@/app/admin/actions/setup";
 import { ActionForm, SubmitButton } from "@/components/admin/forms";
 import { PageHeader, Panel } from "@/components/admin/ui";
-import { Badge, Field, Input, Notice } from "@/components/ui";
+import { Badge, Field, Input, Notice, Select } from "@/components/ui";
 import { hasRole, requireAdmin } from "@/lib/admin/auth";
 import { getLookups } from "@/lib/admin/data";
 import { formatStorage } from "@/lib/format";
@@ -33,6 +33,35 @@ function ModelFields({ model, disabled }: { model?: IphoneModel; disabled: boole
       <label className="flex items-end gap-3 pb-3 text-sm">
         <input type="checkbox" name="is_active" defaultChecked={model?.is_active ?? true} className="h-4 w-4 accent-white" /> Active
       </label>
+      <Field label="Display (inches)" htmlFor={`${p}-display`}>
+        <Input id={`${p}-display`} name="display_inches" type="number" step="0.1" min={3} max={10} defaultValue={model?.display_inches ?? ""} />
+      </Field>
+      <Field label="Chip" htmlFor={`${p}-chip`}>
+        <Input id={`${p}-chip`} name="chip" defaultValue={model?.chip ?? ""} placeholder="A17 Pro" />
+      </Field>
+      <Field label="Unlock" htmlFor={`${p}-bio`}>
+        <Select id={`${p}-bio`} name="biometrics" defaultValue={model?.biometrics ?? ""}>
+          <option value="">—</option>
+          <option value="Face ID">Face ID</option>
+          <option value="Touch ID">Touch ID</option>
+        </Select>
+      </Field>
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="Connector" htmlFor={`${p}-conn`}>
+          <Select id={`${p}-conn`} name="connector" defaultValue={model?.connector ?? ""}>
+            <option value="">—</option>
+            <option value="Lightning">Lightning</option>
+            <option value="USB-C">USB-C</option>
+          </Select>
+        </Field>
+        <Field label="5G" htmlFor={`${p}-5g`}>
+          <Select id={`${p}-5g`} name="has_5g" defaultValue={model?.has_5g == null ? "" : model.has_5g ? "yes" : "no"}>
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </Select>
+        </Field>
+      </div>
     </fieldset>
   );
 }
@@ -73,6 +102,7 @@ export default async function ModelsPage() {
               <span className="text-sm text-grey">
                 {m.storages.map(formatStorage).join(" · ")}
                 {m.release_year ? ` · ${m.release_year}` : ""}
+                {m.chip ? ` · ${m.chip}` : " · specs incomplete"}
               </span>
             </summary>
             <div className="border-t border-line p-5">

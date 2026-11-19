@@ -65,3 +65,28 @@ export async function deleteRequest(_: ActionState, fd: FormData): Promise<Actio
   revalidatePath("/admin", "layout");
   return { ok: true };
 }
+
+export async function saveCustomer(_: ActionState, fd: FormData): Promise<ActionState> {
+  const guard = await actionGuard("staff");
+  if (!guard.ctx) return { ok: false, error: guard.error };
+  const id = str(fd, "id");
+  const name = str(fd, "name");
+  const email = str(fd, "email");
+  if (!id || !name) return { ok: false, error: "Enter the customer's name." };
+  if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: false, error: "Enter a valid email address." };
+  const { error } = await guard.ctx.supabase.from("customers").update({ name, email, notes: str(fd, "notes") }).eq("id", id);
+  if (error) return { ok: false, error: dbError(error) };
+  revalidatePath("/admin", "layout");
+  return { ok: true, message: "Customer saved." };
+}
+
+export async function deleteCustomer(_: ActionState, fd: FormData): Promise<ActionState> {
+  const guard = await actionGuard("manager");
+  if (!guard.ctx) return { ok: false, error: guard.error };
+  const id = str(fd, "id");
+  if (!id) return { ok: false, error: "Missing customer." };
+  const { error } = await guard.ctx.supabase.from("customers").delete().eq("id", id);
+  if (error) return { ok: false, error: dbError(error) };
+  revalidatePath("/admin", "layout");
+  redirect("/admin/customers?deleted=1");
+}

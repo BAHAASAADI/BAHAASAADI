@@ -184,6 +184,32 @@ export default async function ProductPage({ params }: { params: Params }) {
             </dl>
           </section>
 
+          {product.model && (product.model.display_inches || product.model.chip || product.model.biometrics || product.model.connector || product.model.has_5g != null) ? (
+            <section className="mt-10">
+              <h2 className="eyebrow">{dict.product.techTitle}</h2>
+              <dl className="mt-4 divide-y divide-line border-y border-line">
+                {(
+                  [
+                    [dict.product.display, product.model.display_inches ? `${Number(product.model.display_inches).toFixed(1)}″` : null],
+                    [dict.product.chip, product.model.chip],
+                    [dict.product.unlock, product.model.biometrics],
+                    [dict.product.connector, product.model.connector],
+                    [dict.product.network5g, product.model.has_5g == null ? null : product.model.has_5g ? dict.common.yes : dict.common.no],
+                  ] as [string, string | null][]
+                )
+                  .filter(([, v]) => v)
+                  .map(([label, value]) => (
+                    <div key={label} className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-4 text-sm">
+                      <dt className="text-grey">{label}</dt>
+                      <dd className="text-white" dir="ltr">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+              </dl>
+            </section>
+          ) : null}
+
           {product.description ? (
             <section className="mt-10">
               <h2 className="eyebrow">{dict.product.description}</h2>

@@ -85,7 +85,14 @@ export async function saveModel(_: ActionState, fd: FormData): Promise<ActionSta
     storages: [...new Set(storages)].sort((a, b) => a - b),
     colors: list(str(fd, "colors")),
     is_active: bool(fd, "is_active"),
+    display_inches: num(fd, "display_inches"),
+    chip: str(fd, "chip"),
+    biometrics: str(fd, "biometrics"),
+    connector: str(fd, "connector"),
+    has_5g: str(fd, "has_5g") == null ? null : str(fd, "has_5g") === "yes",
   };
+  if (model.biometrics && !["Face ID", "Touch ID"].includes(model.biometrics)) return { ok: false, error: "Invalid unlock method." };
+  if (model.connector && !["Lightning", "USB-C"].includes(model.connector)) return { ok: false, error: "Invalid connector." };
   const { supabase } = guard.ctx;
   const { error } = id ? await supabase.from("iphone_models").update(model).eq("id", id) : await supabase.from("iphone_models").insert(model);
   if (error) return { ok: false, error: dbError(error) };

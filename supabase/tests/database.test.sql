@@ -49,7 +49,7 @@ grant usage on schema tst to anon, authenticated; grant execute on all functions
 select tst.check((select count(*) from public.currencies) = 3, 'anon reads currencies');
 select tst.expect_error($q$insert into public.shops (name, currency) values ('x', 'EUR')$q$, 'permission denied');
 select tst.expect_error($q$select public.dashboard_stats()$q$, 'permission denied');
-select tst.check((select count(*) from public.admins) = 0, 'anon cannot see admins');
+select tst.expect_error($q$select count(*) from public.admins$q$, 'permission denied');
 select tst.check(
   (public.estimate_trade_in(jsonb_build_object('model_id', (select id from public.iphone_models where slug = 'iphone-15-pro-max'),
      'storage_gb', 256, 'condition', 'good', 'battery_health', 88)) ->> 'available')::boolean = false,
@@ -101,7 +101,7 @@ select tst.check(
     'photos', jsonb_build_array('aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee/front.jpg', 'other/evil.jpg'),
     'estimated_offer', 99999)) ->> 'reference') like 'TI-%',
   'anon submits trade-in');
-select tst.check((select count(*) from public.trade_in_enquiries) = 0, 'anon cannot read enquiries');
+select tst.expect_error($q$select count(*) from public.trade_in_enquiries$q$, 'permission denied');
 select tst.expect_error($q$select public.submit_trade_in(jsonb_build_object('model_id', (select id from public.iphone_models where slug = 'iphone-15-pro-max'), 'storage_gb', 256, 'condition', 'good', 'battery_health', 88, 'name', 'J', 'phone', '+48 600 111 222'))$q$, 'name');
 :AS_ADMIN
 
@@ -150,9 +150,16 @@ select tst.check((select s.name from public.products p join public.shops s on s.
 :AS_ADMIN
 :AS_ANON
 select tst.check((select count(*) from public.products) = 1, 'anon sees reserved phone');
+select tst.check(
+  (public.submit_customer_request(jsonb_build_object('kind', 'question', 'product_id', (select id from public.products limit 1),
+     'name', 'Ola Test', 'phone', '+48 511 222 333', 'message', 'Is it unlocked?')) ->> 'id') is not null,
+  'anon asks a question about a phone');
+select tst.expect_error($q$select count(*) from public.product_private$q$, 'permission denied');
+select tst.check((select chip from public.iphone_models where slug = 'iphone-15-pro-max') = 'A17 Pro', 'model specs are public');
 :AS_ADMIN
 
 :AS_STAFF
+select tst.check((select r.customer_id = c.id from public.customer_requests r join public.customers c on c.phone = '+48511222333' where r.phone = '+48511222333'), 'request linked to customer');
 select public.record_sale((select id from public.products limit 1), 1100, 'EUR', null, 'Anna', '+48 500 000 000', null);
 select tst.check((select status from public.products limit 1) = 'sold', 'sale marks phone sold');
 select tst.check((select profit_main from public.sales limit 1) = 300, 'gross profit = 1100 - 800');
