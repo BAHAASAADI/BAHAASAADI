@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+/* iZone — strict black & white identity */
+@theme {
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-grey: #b3b3b3;
+  --color-line: #333333;
+  --color-panel: #0b0b0b;
+  --color-muted: #7a7a7a;
+
+  --font-sans: var(--font-inter), var(--font-arabic), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --radius-card: 1.25rem;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-black);
+    color: var(--color-white);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-white);
+    outline-offset: 3px;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 0.4;
+  }
+
+  select option {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  .eyebrow {
+    color: var(--color-grey);
+    font-size: 0.75rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  .hairline {
+    border-color: var(--color-line);
+  }
+
+  /* Rendered legal pages / long text */
+  .prose-izone h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  .prose-izone p,
+  .prose-izone li {
+    color: var(--color-grey);
+    line-height: 1.75;
+  }
+  .prose-izone ul {
+    margin-block: 0.75rem;
+    padding-inline-start: 1.25rem;
+    list-style: disc;
+  }
+  .prose-izone p + p {
+    margin-top: 1rem;
+  }
+}
+
+/* Subtle, single-purpose motion */
+@keyframes izone-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-fade-up {
+  animation: izone-fade-up 0.6s var(--ease-out-soft) both;
+}
+
+@keyframes izone-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+.skeleton {
+  background: #151515;
+  animation: izone-pulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

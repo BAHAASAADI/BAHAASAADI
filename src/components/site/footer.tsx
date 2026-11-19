@@ -1,0 +1,60 @@
+import Link from "next/link";
+import { FacebookIcon, InstagramIcon, Logo, TikTokIcon } from "@/components/brand";
+import type { SiteContext } from "@/lib/data/public";
+import type { Dictionary, Locale } from "@/lib/i18n";
+
+export function Footer({ ctx, dict, locale }: { ctx: SiteContext; dict: Dictionary; locale: Locale }) {
+  const social = [
+    { href: ctx.settings?.instagram_url, label: "Instagram", Icon: InstagramIcon },
+    { href: ctx.settings?.facebook_url, label: "Facebook", Icon: FacebookIcon },
+    { href: ctx.settings?.tiktok_url, label: "TikTok", Icon: TikTokIcon },
+  ].filter((s) => s.href);
+
+  return (
+    <footer className="mt-24 border-t border-line">
+      <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div>
+          <Logo className="w-32" sizes="128px" />
+          <p className="mt-3 text-[0.68rem] tracking-[0.34em] text-white">{dict.common.slogan}</p>
+          {social.length ? (
+            <div className="mt-8">
+              <p className="eyebrow mb-3">{dict.footer.follow}</p>
+              <div className="flex gap-3">
+                {social.map(({ href, label, Icon }) => (
+                  <a
+                    key={label}
+                    href={href!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-grey transition-colors hover:border-white hover:text-white"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+        <nav aria-label="Footer" className="grid content-start gap-3 text-sm">
+          <Link className="text-grey hover:text-white" href={`/${locale}/buy`}>{dict.nav.buy}</Link>
+          <Link className="text-grey hover:text-white" href={`/${locale}/sell`}>{dict.nav.sell}</Link>
+          <Link className="text-grey hover:text-white" href={`/${locale}/shops`}>{dict.nav.shops}</Link>
+          <Link className="text-grey hover:text-white" href={`/${locale}/faq`}>{dict.nav.faq}</Link>
+          <Link className="text-grey hover:text-white" href={`/${locale}/contact`}>{dict.nav.contact}</Link>
+        </nav>
+        <nav aria-label="Legal" className="grid content-start gap-3 text-sm">
+          <Link className="text-grey hover:text-white" href={`/${locale}/privacy`}>{dict.footer.privacy}</Link>
+          <Link className="text-grey hover:text-white" href={`/${locale}/terms`}>{dict.footer.terms}</Link>
+          <Link className="text-grey hover:text-white" href={`/${locale}/trade-in-conditions`}>{dict.footer.tradeIn}</Link>
+        </nav>
+      </div>
+      <div className="container-page border-t border-line py-6 text-xs leading-relaxed text-muted">
+        <p>
+          © {new Date().getFullYear()} iZone. {dict.footer.rights}
+        </p>
+        <p className="mt-1">{dict.footer.trademark}</p>
+      </div>
+    </footer>
+  );
+}
