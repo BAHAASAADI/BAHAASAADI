@@ -15,7 +15,7 @@ export function TopBar({ ctx, dict, locale }: { ctx: SiteContext; dict: Dictiona
   const tel = telLink(phone);
 
   return (
-    <div className="border-b border-white/[0.08] bg-[#050505] text-xs text-grey">
+    <div className="border-b border-white/[0.08] bg-panel text-xs text-grey">
       <div className="container-page flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-2">
         <div className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-1">
           {location ? (

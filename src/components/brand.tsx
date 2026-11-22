@@ -11,7 +11,7 @@ export function Logo({ className = "", priority = false, sizes = "200px" }: { cl
       height={398}
       priority={priority}
       sizes={sizes}
-      className={`h-auto ${className}`}
+      className={`brand-logo h-auto ${className}`}
     />
   );
 }

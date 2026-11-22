@@ -67,7 +67,7 @@ export function Gallery({ photos, alt, emptyLabel, photoLabel }: { photos: strin
               onClick={() => setIndex(i)}
               aria-label={photoLabel.replace("{n}", String(i + 1))}
               aria-current={i === index}
-              className={`relative aspect-square overflow-hidden rounded-lg border transition-colors ${i === index ? "border-white shadow-[0_0_18px_-4px_rgba(255,255,255,0.5)]" : "border-white/10 hover:border-white/40"}`}
+              className={`relative aspect-square overflow-hidden rounded-lg border transition-colors ${i === index ? "border-white shadow-[0_0_18px_-4px_rgb(var(--glow)/calc(0.5*var(--glow-k)))]" : "border-white/10 hover:border-white/40"}`}
             >
               <Image src={src} alt="" fill sizes="96px" className="object-cover" />
             </button>

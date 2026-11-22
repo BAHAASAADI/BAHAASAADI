@@ -15,7 +15,7 @@ export function Footer({ ctx, dict, locale }: { ctx: SiteContext; dict: Dictiona
       <hr className="light-rule" />
       <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <Logo className="w-40 drop-shadow-[0_0_24px_rgba(255,255,255,0.25)]" sizes="160px" />
+          <Logo className="brand-logo-glow w-40" sizes="160px" />
           <p className="mt-3 text-[0.68rem] tracking-[0.34em] text-white">{dict.common.slogan}</p>
           {social.length ? (
             <div className="mt-8">
@@ -28,7 +28,7 @@ export function Footer({ ctx, dict, locale }: { ctx: SiteContext; dict: Dictiona
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.03] text-grey transition-all duration-300 hover:border-white hover:text-white hover:shadow-[0_0_24px_-4px_rgba(255,255,255,0.45)]"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.03] text-grey transition-all duration-300 hover:border-white hover:text-white hover:shadow-[0_0_24px_-4px_rgb(var(--glow)/calc(0.45*var(--glow-k)))]"
                   >
                     <Icon className="h-4 w-4" />
                   </a>

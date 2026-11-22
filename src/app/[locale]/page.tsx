@@ -49,7 +49,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="relative flex flex-col items-center text-center">
             <div className="glow-orb animate-breathe left-1/2 top-1/2 h-[22rem] w-[min(110vw,56rem)] -translate-x-1/2 -translate-y-1/2" aria-hidden="true" />
             <h1 className="animate-rise relative w-full">
-              <Logo priority className="mx-auto w-[min(86vw,760px)] drop-shadow-[0_0_38px_rgba(255,255,255,0.35)]" sizes="(min-width: 900px) 760px, 86vw" />
+              <Logo priority className="brand-logo-glow mx-auto w-[min(86vw,760px)]" sizes="(min-width: 900px) 760px, 86vw" />
             </h1>
             <p className="animate-rise relative mt-5 ps-[0.42em] text-[0.7rem] tracking-[0.42em] text-white sm:mt-7 sm:text-base" style={{ ["--rise-delay" as string]: "150ms" }}>
               {dict.common.slogan}
@@ -102,6 +102,31 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       <hr className="light-rule" />
+
+      {/* REVIEWS — only real reviews entered by the owner are shown */}
+      {reviews.length ? (
+        <section className="stage light-top py-20 sm:py-28">
+          <div className="container-page">
+            <SectionHeading title={dict.home.reviewsTitle} />
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {reviews.slice(0, 6).map((r, i) => (
+                <figure key={r.id} className="surface flex flex-col rounded-[var(--radius-card)] p-7" data-reveal style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
+                  <div className="flex gap-1" aria-label={`${r.rating}/5`}>
+                    {Array.from({ length: 5 }, (_, k) => (
+                      <Star key={k} className={`h-4 w-4 ${k < r.rating ? "fill-white text-white" : "text-line"}`} aria-hidden="true" />
+                    ))}
+                  </div>
+                  <blockquote className="mt-5 flex-1 leading-relaxed text-white">“{r.body}”</blockquote>
+                  <figcaption className="mt-6 text-sm text-grey">
+                    {r.author_name}
+                    {r.source ? <span className="text-muted"> · {r.source}</span> : null}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* FEATURED */}
       {featured.length ? (
@@ -251,31 +276,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <div key={shop.id} data-reveal style={{ ["--reveal-delay" as string]: `${i * 90}ms` }}>
                   <ShopCard shop={shop} dict={dict} locale={locale} stockCount={shopCounts[shop.id] ?? 0} fallbackWhatsapp={ctx.settings?.whatsapp_number} />
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      {/* REVIEWS — only real reviews entered by the owner are shown */}
-      {reviews.length ? (
-        <section className="stage light-top py-20 sm:py-28">
-          <div className="container-page">
-            <SectionHeading title={dict.home.reviewsTitle} />
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {reviews.slice(0, 6).map((r, i) => (
-                <figure key={r.id} className="surface flex flex-col rounded-[var(--radius-card)] p-7" data-reveal style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
-                  <div className="flex gap-1" aria-label={`${r.rating}/5`}>
-                    {Array.from({ length: 5 }, (_, k) => (
-                      <Star key={k} className={`h-4 w-4 ${k < r.rating ? "fill-white text-white" : "text-line"}`} aria-hidden="true" />
-                    ))}
-                  </div>
-                  <blockquote className="mt-5 flex-1 leading-relaxed text-white">“{r.body}”</blockquote>
-                  <figcaption className="mt-6 text-sm text-grey">
-                    {r.author_name}
-                    {r.source ? <span className="text-muted"> · {r.source}</span> : null}
-                  </figcaption>
-                </figure>
               ))}
             </div>
           </div>

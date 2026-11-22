@@ -23,7 +23,7 @@ export function DeviceVisual({
         className="absolute inset-0 rounded-[18%/8.5%] p-[3.2%]"
         style={{
           background: "linear-gradient(140deg, #d8d8d8 0%, #6f6f6f 18%, #2a2a2a 40%, #8d8d8d 62%, #3a3a3a 82%, #bdbdbd 100%)",
-          boxShadow: "0 40px 90px -30px rgba(255,255,255,0.28), 0 0 0 1px rgba(255,255,255,0.12), inset 0 0 2px rgba(255,255,255,0.6)",
+          boxShadow: "0 40px 90px -30px rgb(var(--glow) / calc(0.5 * var(--glow-k))), 0 0 0 1px rgba(0,0,0,0.18), inset 0 0 2px rgba(255,255,255,0.6)",
         }}
       >
         {/* glass */}

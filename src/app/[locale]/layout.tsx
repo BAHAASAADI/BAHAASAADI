@@ -18,8 +18,8 @@ const grotesk = Space_Grotesk({ subsets: ["latin", "latin-ext"], variable: "--fo
 const arabic = Noto_Sans_Arabic({ subsets: ["arabic"], variable: "--font-arabic", display: "swap", weight: ["400", "500", "600"] });
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
-  colorScheme: "dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -62,7 +62,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const ctx = await safeContext();
 
   return (
-    <html lang={locale} dir={dir(locale)} className={`${inter.variable} ${grotesk.variable} ${arabic.variable}`}>
+    <html lang={locale} dir={dir(locale)} className={`theme-light ${inter.variable} ${grotesk.variable} ${arabic.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"

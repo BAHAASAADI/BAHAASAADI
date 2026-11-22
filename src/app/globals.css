@@ -108,6 +108,57 @@
 }
 
 /* ==========================================================================
+   Theme variables. The website uses the light theme (white paper, black
+   ink); the dashboard keeps the dark one. Swapping the two base colours
+   inverts every utility (bg-black, text-white, border-white/15 …) at once.
+   ========================================================================== */
+:root {
+  --glow: 255 255 255; /* colour of light, glows and grid lines */
+  --glow-k: 1; /* strength multiplier for glows */
+  --paper: 0 0 0;
+  --surface-a: #111111;
+  --surface-b: #080808;
+  --stage-a: #0d0d0d;
+  --stage-b: #050505;
+  --sheen-from: #ffffff;
+  --sheen-to: #9d9d9d;
+  --sheen-soft-a: #8c8c8c;
+  --sheen-soft-b: #e6e6e6;
+  --surface-shadow: rgb(0 0 0 / 0.9);
+}
+html.theme-light {
+  --color-black: #ffffff;
+  --color-white: #000000;
+  --color-grey: #5a5a5a;
+  --color-line: #e2e2e2;
+  --color-panel: #f5f5f5;
+  --color-muted: #8a8a8a;
+  --glow: 0 0 0;
+  --glow-k: 0.4;
+  --paper: 255 255 255;
+  --surface-a: #ffffff;
+  --surface-b: #f7f7f7;
+  --stage-a: #fafafa;
+  --stage-b: #efefef;
+  --sheen-from: #000000;
+  --sheen-to: #5f5f5f;
+  --sheen-soft-a: #9a9a9a;
+  --sheen-soft-b: #1a1a1a;
+  --surface-shadow: rgb(0 0 0 / 0.12);
+  color-scheme: light;
+}
+/* The iZone wordmark file is white; on white paper it is shown in black. */
+html.theme-light .brand-logo {
+  filter: brightness(0);
+}
+.brand-logo-glow {
+  filter: drop-shadow(0 0 38px rgb(var(--glow) / calc(0.35 * var(--glow-k))));
+}
+html.theme-light .brand-logo.brand-logo-glow {
+  filter: brightness(0) drop-shadow(0 18px 28px rgb(0 0 0 / 0.14));
+}
+
+/* ==========================================================================
    Lighting system — white light on black. Every effect is CSS gradients,
    blur and transforms (GPU friendly), with no images and no colour.
    ========================================================================== */
@@ -144,8 +195,8 @@
     inset: 0;
     z-index: -2;
     background-image:
-      linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+      linear-gradient(to right, rgb(var(--glow) / calc(0.045 * var(--glow-k))) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--glow) / calc(0.045 * var(--glow-k))) 1px, transparent 1px);
     background-size: 64px 64px;
     mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
     -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
@@ -159,7 +210,7 @@
     inset: -10% -10% auto;
     height: 70%;
     z-index: -1;
-    background: radial-gradient(ellipse 55% 60% at 50% 0%, rgb(255 255 255 / 0.11), rgb(255 255 255 / 0.03) 45%, transparent 70%);
+    background: radial-gradient(ellipse 55% 60% at 50% 0%, rgb(var(--glow) / calc(0.11 * var(--glow-k))), rgb(var(--glow) / calc(0.03 * var(--glow-k))) 45%, transparent 70%);
     /* fade in from the section edge so stacked sections never show a seam */
     mask-image: linear-gradient(to bottom, transparent 10%, #000 45%);
     -webkit-mask-image: linear-gradient(to bottom, transparent 10%, #000 45%);
@@ -173,7 +224,7 @@
     inset: auto -10% -20%;
     height: 70%;
     z-index: -1;
-    background: radial-gradient(ellipse 50% 55% at 50% 70%, rgb(255 255 255 / 0.08), transparent 70%);
+    background: radial-gradient(ellipse 50% 55% at 50% 70%, rgb(var(--glow) / calc(0.08 * var(--glow-k))), transparent 70%);
     mask-image: linear-gradient(to top, transparent 22%, #000 60%);
     -webkit-mask-image: linear-gradient(to top, transparent 22%, #000 60%);
     pointer-events: none;
@@ -183,14 +234,14 @@
   .light-rule {
     height: 1px;
     border: 0;
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.28), transparent);
+    background: linear-gradient(90deg, transparent, rgb(var(--glow) / calc(0.28 * var(--glow-k))), transparent);
   }
 
   /* Light source orb (used behind the logo and products) */
   .glow-orb {
     position: absolute;
     border-radius: 9999px;
-    background: radial-gradient(circle, rgb(255 255 255 / 0.22) 0%, rgb(255 255 255 / 0.07) 38%, transparent 70%);
+    background: radial-gradient(circle, rgb(var(--glow) / calc(0.22 * var(--glow-k))) 0%, rgb(var(--glow) / calc(0.07 * var(--glow-k))) 38%, transparent 70%);
     filter: blur(8px);
     pointer-events: none;
   }
@@ -203,7 +254,7 @@
     width: min(70rem, 140vw);
     height: 46rem;
     transform: translateX(-50%);
-    background: linear-gradient(180deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.04) 55%, transparent 90%);
+    background: linear-gradient(180deg, rgb(var(--glow) / calc(0.13 * var(--glow-k))), rgb(var(--glow) / calc(0.04 * var(--glow-k))) 55%, transparent 90%);
     clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
     filter: blur(36px);
     pointer-events: none;
@@ -216,7 +267,7 @@
     width: 46rem;
     height: 120%;
     top: -30%;
-    background: linear-gradient(180deg, rgb(255 255 255 / 0.10), rgb(255 255 255 / 0.02) 55%, transparent 80%);
+    background: linear-gradient(180deg, rgb(var(--glow) / calc(0.10 * var(--glow-k))), rgb(var(--glow) / calc(0.02 * var(--glow-k))) 55%, transparent 80%);
     filter: blur(28px);
     transform: rotate(18deg);
     transform-origin: top center;
@@ -225,13 +276,13 @@
 
   /* Metallic sheen text */
   .text-sheen {
-    background: linear-gradient(180deg, #ffffff 25%, #9d9d9d 100%);
+    background: linear-gradient(180deg, var(--sheen-from) 25%, var(--sheen-to) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   .text-sheen-soft {
-    background: linear-gradient(100deg, #8c8c8c 0%, #e6e6e6 45%, #8c8c8c 90%);
+    background: linear-gradient(100deg, var(--sheen-soft-a) 0%, var(--sheen-soft-b) 45%, var(--sheen-soft-a) 90%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -240,11 +291,11 @@
   /* Lit surfaces (cards, panels) with a top highlight and depth */
   .surface {
     position: relative;
-    background: linear-gradient(180deg, #111111 0%, #080808 100%);
-    border: 1px solid rgb(255 255 255 / 0.09);
+    background: linear-gradient(180deg, var(--surface-a) 0%, var(--surface-b) 100%);
+    border: 1px solid rgb(var(--glow) / calc(0.09 * var(--glow-k)));
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.06),
-      0 24px 60px -30px rgb(0 0 0 / 0.9);
+      inset 0 1px 0 rgb(var(--glow) / calc(0.06 * var(--glow-k))),
+      0 24px 60px -30px var(--surface-shadow);
   }
   .surface-interactive {
     transition:
@@ -255,23 +306,23 @@
   @media (hover: hover) {
     .surface-interactive:hover {
       transform: translateY(-4px);
-      border-color: rgb(255 255 255 / 0.24);
+      border-color: rgb(var(--glow) / calc(0.24 * var(--glow-k)));
       box-shadow:
-        inset 0 1px 0 rgb(255 255 255 / 0.1),
-        0 30px 80px -24px rgb(255 255 255 / 0.14);
+        inset 0 1px 0 rgb(var(--glow) / calc(0.1 * var(--glow-k))),
+        0 30px 80px -24px rgb(var(--glow) / calc(0.14 * var(--glow-k)));
     }
   }
 
   /* Product stage: a spotlight behind the phone photo */
   .product-stage {
     background:
-      radial-gradient(ellipse 70% 55% at 50% 38%, rgb(255 255 255 / 0.10), transparent 70%),
-      linear-gradient(180deg, #0d0d0d, #050505);
+      radial-gradient(ellipse 70% 55% at 50% 38%, rgb(var(--glow) / calc(0.10 * var(--glow-k))), transparent 70%),
+      linear-gradient(180deg, var(--stage-a), var(--stage-b));
   }
 
   /* Frosted glass (header, floating labels) */
   .glass {
-    background: rgb(0 0 0 / 0.62);
+    background: rgb(var(--paper) / 0.72);
     -webkit-backdrop-filter: saturate(160%) blur(18px);
     backdrop-filter: saturate(160%) blur(18px);
   }
@@ -279,14 +330,14 @@
   /* Glowing primary button */
   .btn-glow {
     box-shadow:
-      0 0 0 1px rgb(255 255 255 / 0.9),
-      0 10px 40px -8px rgb(255 255 255 / 0.45);
+      0 0 0 1px rgb(var(--glow) / calc(0.9 * var(--glow-k))),
+      0 10px 40px -8px rgb(var(--glow) / calc(0.45 * var(--glow-k)));
   }
   @media (hover: hover) {
     .btn-glow:hover {
       box-shadow:
-        0 0 0 1px #fff,
-        0 14px 56px -6px rgb(255 255 255 / 0.6);
+        0 0 0 1px var(--color-white),
+        0 14px 56px -6px rgb(var(--glow) / calc(0.6 * var(--glow-k)));
     }
   }
   .btn-arrow {

@@ -241,7 +241,7 @@ export function SellWizard(props: Props) {
   }
 
   const choice = (selected: boolean) =>
-    `rounded-2xl border px-5 py-4 text-start transition-[border-color,background-color,box-shadow] duration-300 ${selected ? "border-white bg-white text-black shadow-[0_10px_40px_-12px_rgba(255,255,255,0.55)]" : "border-white/10 bg-gradient-to-b from-[#111] to-[#080808] hover:border-white/40"}`;
+    `rounded-2xl border px-5 py-4 text-start transition-[border-color,background-color,box-shadow] duration-300 ${selected ? "border-white bg-white text-black shadow-[0_10px_40px_-12px_rgb(var(--glow)/calc(0.55*var(--glow-k)))]" : "border-white/10 bg-[linear-gradient(180deg,var(--surface-a),var(--surface-b))] hover:border-white/40"}`;
 
   const bandLabel = (b: BatteryBand) => (b.min_pct === 0 ? t(s.batteryBelow, { pct: b.max_pct + 1 }) : `${b.min_pct}–${b.max_pct}%`);
 
@@ -254,7 +254,7 @@ export function SellWizard(props: Props) {
             <span className="uppercase tracking-[0.18em]">{s.steps[step]}</span>
           </div>
           <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-white/[0.08]">
-            <div className="h-full rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.7)] transition-[width] duration-700 ease-[var(--ease-out-soft)]" style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
+            <div className="h-full rounded-full bg-white shadow-[0_0_14px_rgb(var(--glow)/calc(0.7*var(--glow-k)))] transition-[width] duration-700 ease-[var(--ease-out-soft)]" style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
           </div>
           {model && step > 0 && step < 7 ? (
             <p className="mt-4 text-sm text-grey">

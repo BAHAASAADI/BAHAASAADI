@@ -124,7 +124,7 @@ export function RequestDialog({
       </button>
       <dialog
         ref={ref}
-        className="surface m-auto w-[calc(100%-2rem)] max-w-lg rounded-[var(--radius-card)] p-0 text-white shadow-[0_40px_120px_-30px_rgba(255,255,255,0.18)] backdrop:bg-black/80 backdrop:backdrop-blur-sm"
+        className="surface m-auto w-[calc(100%-2rem)] max-w-lg rounded-[var(--radius-card)] p-0 text-white shadow-[0_40px_120px_-30px_rgb(var(--glow)/calc(0.18*var(--glow-k)))] backdrop:bg-black/80 backdrop:backdrop-blur-sm"
         onClick={(e) => {
           if (e.target === ref.current) ref.current?.close();
         }}
