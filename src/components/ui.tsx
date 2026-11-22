@@ -13,11 +13,11 @@ export function buttonClass(variant: ButtonVariant = "outline", size: ButtonSize
     lg: "h-13 px-8 text-sm sm:text-[0.95rem]",
   };
   const variants: Record<ButtonVariant, string> = {
-    primary: "bg-white text-black border border-white btn-glow hover:bg-white/85",
+    primary: "bg-white/[0.08] text-white border border-white btn-glow hover:bg-white/[0.16]",
     outline: "bg-white/[0.03] text-white border border-white/15 hover:border-white/60 hover:bg-white/[0.07] hover-glow",
     whatsapp: "btn-whatsapp text-white border border-[#25D366]",
     ghost: "bg-transparent text-grey hover:text-white",
-    danger: "bg-black text-white border border-line hover:border-white hover:bg-white hover:text-black",
+    danger: "bg-black text-white border border-line hover:border-white hover:bg-white/[0.08]",
   };
   return `${base} ${sizes[size]} ${variants[variant]} ${extra}`.trim();
 }
@@ -79,7 +79,7 @@ export function Field({
 
 export function Badge({ children, tone = "outline" }: { children: ReactNode; tone?: "solid" | "outline" | "muted" }) {
   const tones = {
-    solid: "bg-white text-black border-white",
+    solid: "bg-white/[0.12] text-white border-white",
     outline: "bg-black/60 text-white border-white/20 backdrop-blur-md",
     muted: "bg-black/60 text-grey border-white/10 backdrop-blur-md",
   };

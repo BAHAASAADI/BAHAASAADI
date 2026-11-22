@@ -196,7 +196,7 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
             <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-medium">
               <span className="flex items-center gap-2">
                 <SlidersHorizontal className="h-4 w-4" aria-hidden="true" /> {dict.catalogue.filters}
-                {activeFilters ? <span className="rounded-full bg-white px-2 text-xs text-black">{activeFilters}</span> : null}
+                {activeFilters ? <span className="rounded-full border border-white bg-white/[0.12] px-2 text-xs text-white">{activeFilters}</span> : null}
               </span>
               <span className="text-xl text-grey transition-transform group-open:rotate-45" aria-hidden="true">
                 +
@@ -263,7 +263,7 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
                   key={n}
                   href={pageHref(n)}
                   aria-current={n === page ? "page" : undefined}
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border text-sm transition-colors duration-300 ${n === page ? "btn-glow border-white bg-white text-black" : "border-white/15 bg-white/[0.03] hover:border-white/70"}`}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full border text-sm transition-colors duration-300 ${n === page ? "btn-glow border-white bg-white/[0.12] text-white" : "border-white/15 bg-white/[0.03] hover:border-white/70"}`}
                 >
                   {n}
                 </Link>

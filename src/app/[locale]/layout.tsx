@@ -66,7 +66,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-black"
+          className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-full focus:border focus:border-white focus:bg-black focus:px-4 focus:py-2 focus:text-white"
         >
           iZone
         </a>
