@@ -105,10 +105,11 @@ export default async function ProductPage({ params }: { params: Params }) {
   };
 
   return (
+    <div className="stage light-top">
     <div className="container-page py-10 sm:py-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
-      <Link href={`/${locale}/buy`} className="inline-flex items-center gap-2 text-sm text-grey hover:text-white">
-        <ArrowLeft className="h-4 w-4 rtl:rotate-180" aria-hidden="true" /> {dict.catalogue.title}
+      <Link href={`/${locale}/buy`} className="group inline-flex items-center gap-2 text-sm text-grey transition-colors hover:text-white">
+        <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1 rtl:rotate-180 rtl:group-hover:translate-x-1" aria-hidden="true" /> {dict.catalogue.title}
       </Link>
 
       <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
@@ -119,7 +120,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           photoLabel={dict.product.photo}
         />
 
-        <div>
+        <div className="animate-rise" style={{ ["--rise-delay" as string]: "120ms" }}>
           <div className="flex flex-wrap gap-2">
             <Badge tone={product.status === "reserved" ? "solid" : "outline"}>
               {product.status === "reserved" ? dict.common.reserved : dict.common.available}
@@ -127,19 +128,19 @@ export default async function ProductPage({ params }: { params: Params }) {
             {product.offer_price != null ? <Badge>{dict.common.offer}</Badge> : null}
             <Badge tone="muted">{product.inventory_id}</Badge>
           </div>
-          <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
+          <h1 className="text-sheen mt-5 text-4xl font-semibold leading-[1.05] sm:text-6xl">{title}</h1>
           <p className="mt-2 text-lg text-grey">
             {product.color} · {dict.conditions[product.condition]}
           </p>
 
-          <div className="mt-8">
+          <div className="surface mt-8 rounded-2xl p-5 sm:p-6">
             <PriceTag product={product} displayCurrency={ctx.displayCurrency} rates={ctx.rates} locale={locale} dict={dict} size="lg" />
             {ctx.displayCurrency !== product.currency ? (
               <p className="mt-2 text-xs text-muted">{t(dict.product.convertedNote, { currency: product.currency })}</p>
             ) : null}
           </div>
 
-          {product.status === "reserved" ? <p className="mt-6 rounded-xl border border-line p-4 text-sm text-grey">{dict.product.reservedNotice}</p> : null}
+          {product.status === "reserved" ? <p className="mt-6 rounded-xl border border-white/12 bg-white/[0.03] p-4 text-sm text-grey">{dict.product.reservedNotice}</p> : null}
 
           <div className="mt-8 grid gap-3">
             {wa ? (
@@ -174,7 +175,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
           <section className="mt-12">
             <h2 className="eyebrow">{dict.product.details}</h2>
-            <dl className="mt-4 divide-y divide-line border-y border-line">
+            <dl className="surface mt-4 divide-y divide-white/[0.07] rounded-2xl px-5">
               {specs.map(([label, value]) => (
                 <div key={label} className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-4 text-sm">
                   <dt className="text-grey">{label}</dt>
@@ -187,7 +188,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           {product.model && (product.model.display_inches || product.model.chip || product.model.biometrics || product.model.connector || product.model.has_5g != null) ? (
             <section className="mt-10">
               <h2 className="eyebrow">{dict.product.techTitle}</h2>
-              <dl className="mt-4 divide-y divide-line border-y border-line">
+              <dl className="surface mt-4 divide-y divide-white/[0.07] rounded-2xl px-5">
                 {(
                   [
                     [dict.product.display, product.model.display_inches ? `${Number(product.model.display_inches).toFixed(1)}″` : null],
@@ -220,15 +221,17 @@ export default async function ProductPage({ params }: { params: Params }) {
       </div>
 
       {more.length ? (
-        <section className="mt-24 border-t border-line pt-16">
-          <h2 className="mb-10 text-3xl font-semibold tracking-tight">{dict.product.otherPhones}</h2>
+        <section className="mt-24">
+          <hr className="light-rule mb-16" />
+          <h2 className="text-sheen mb-10 text-3xl font-semibold sm:text-4xl" data-reveal>{dict.product.otherPhones}</h2>
           <ProductGrid>
-            {more.map((p) => (
-              <ProductCard key={p.id} product={p} dict={dict} locale={locale} displayCurrency={ctx.displayCurrency} rates={ctx.rates} />
+            {more.map((p, i) => (
+              <ProductCard key={p.id} product={p} index={i} dict={dict} locale={locale} displayCurrency={ctx.displayCurrency} rates={ctx.rates} />
             ))}
           </ProductGrid>
         </section>
       ) : null}
+    </div>
     </div>
   );
 }

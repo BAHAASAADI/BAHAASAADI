@@ -9,9 +9,9 @@ export function Gallery({ photos, alt, emptyLabel, photoLabel }: { photos: strin
 
   if (!photos.length) {
     return (
-      <div className="flex aspect-square items-center justify-center rounded-[var(--radius-card)] border border-line text-center">
+      <div className="surface product-stage animate-rise flex aspect-square items-center justify-center rounded-[var(--radius-card)] p-6 text-center">
         <div>
-          <p className="text-3xl font-semibold tracking-tight">{alt}</p>
+          <p className="text-sheen font-display text-3xl font-semibold tracking-tight">{alt}</p>
           <p className="mt-2 text-sm text-muted">{emptyLabel}</p>
         </div>
       </div>
@@ -21,8 +21,8 @@ export function Gallery({ photos, alt, emptyLabel, photoLabel }: { photos: strin
   const go = (delta: number) => setIndex((i) => (i + delta + photos.length) % photos.length);
 
   return (
-    <div>
-      <div className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] border border-line bg-black">
+    <div className="animate-rise">
+      <div className="surface product-stage relative aspect-square overflow-hidden rounded-[var(--radius-card)]">
         {photos.map((src, i) => (
           <Image
             key={src}
@@ -40,7 +40,7 @@ export function Gallery({ photos, alt, emptyLabel, photoLabel }: { photos: strin
               type="button"
               onClick={() => go(-1)}
               aria-label="Previous photo"
-              className="absolute start-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-black/70 hover:border-white"
+              className="absolute start-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md transition-colors duration-300 hover:border-white"
             >
               <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
             </button>
@@ -48,11 +48,11 @@ export function Gallery({ photos, alt, emptyLabel, photoLabel }: { photos: strin
               type="button"
               onClick={() => go(1)}
               aria-label="Next photo"
-              className="absolute end-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-black/70 hover:border-white"
+              className="absolute end-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md transition-colors duration-300 hover:border-white"
             >
               <ChevronRight className="h-5 w-5 rtl:rotate-180" />
             </button>
-            <span className="absolute bottom-3 end-3 rounded-full bg-black/70 px-3 py-1 text-xs text-grey">
+            <span className="absolute bottom-3 end-3 rounded-full border border-white/10 bg-black/60 px-3 py-1 text-xs text-grey backdrop-blur-md">
               {index + 1} / {photos.length}
             </span>
           </>
@@ -67,7 +67,7 @@ export function Gallery({ photos, alt, emptyLabel, photoLabel }: { photos: strin
               onClick={() => setIndex(i)}
               aria-label={photoLabel.replace("{n}", String(i + 1))}
               aria-current={i === index}
-              className={`relative aspect-square overflow-hidden rounded-lg border transition-colors ${i === index ? "border-white" : "border-line hover:border-grey"}`}
+              className={`relative aspect-square overflow-hidden rounded-lg border transition-colors ${i === index ? "border-white shadow-[0_0_18px_-4px_rgba(255,255,255,0.5)]" : "border-white/10 hover:border-white/40"}`}
             >
               <Image src={src} alt="" fill sizes="96px" className="object-cover" />
             </button>

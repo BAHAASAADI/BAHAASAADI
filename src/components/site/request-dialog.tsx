@@ -124,7 +124,7 @@ export function RequestDialog({
       </button>
       <dialog
         ref={ref}
-        className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-[var(--radius-card)] border border-line bg-black p-0 text-white backdrop:bg-black/80"
+        className="surface m-auto w-[calc(100%-2rem)] max-w-lg rounded-[var(--radius-card)] p-0 text-white shadow-[0_40px_120px_-30px_rgba(255,255,255,0.18)] backdrop:bg-black/80 backdrop:backdrop-blur-sm"
         onClick={(e) => {
           if (e.target === ref.current) ref.current?.close();
         }}
@@ -132,7 +132,7 @@ export function RequestDialog({
         <div className="p-6 sm:p-8">
           <div className="mb-6 flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-semibold tracking-tight">{formProps.labels.title}</h2>
+              <h2 className="text-sheen text-2xl font-semibold tracking-tight">{formProps.labels.title}</h2>
               <p className="mt-2 text-sm text-grey">{formProps.labels.lead}</p>
             </div>
             <button type="button" onClick={() => ref.current?.close()} aria-label={formProps.labels.close} className="rounded-full p-1 text-grey hover:text-white">

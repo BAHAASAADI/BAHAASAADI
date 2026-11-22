@@ -17,12 +17,12 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
     console.error(error);
   }, [error]);
   return (
-    <div className="container-page flex min-h-[50vh] flex-col items-center justify-center py-24 text-center">
+    <div className="stage light-top flex min-h-[50vh] flex-col items-center justify-center px-4 py-24 text-center">
       <h1 className="max-w-md text-2xl font-semibold tracking-tight sm:text-3xl">{text.title}</h1>
       <button
         type="button"
         onClick={reset}
-        className="mt-8 inline-flex h-11 items-center rounded-full border border-white bg-white px-6 text-sm font-medium text-black hover:bg-grey"
+        className="mt-8 inline-flex h-11 items-center btn-glow rounded-full border border-white bg-white px-6 text-sm font-medium text-black transition-colors hover:bg-neutral-100"
       >
         {text.retry}
       </button>

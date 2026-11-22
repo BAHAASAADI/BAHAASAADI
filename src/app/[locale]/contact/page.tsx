@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Mail, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/brand";
+import { PageHero } from "@/components/site/page-hero";
 import { RequestForm } from "@/components/site/request-dialog";
 import { ShopCard } from "@/components/site/shop-card";
 import { buttonClass } from "@/components/ui";
@@ -27,10 +28,8 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   const email = ctx.settings?.contact_email;
 
   return (
-    <div className="container-page py-14 sm:py-20">
-      <header className="mb-12 max-w-2xl">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">{dict.contact.title}</h1>
-        <p className="mt-4 text-lg text-grey">{dict.contact.lead}</p>
+    <>
+    <PageHero title={dict.contact.title} lead={dict.contact.lead}>
         <div className="mt-8 flex flex-wrap gap-3">
           {wa ? (
             <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("primary")}>
@@ -48,11 +47,12 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             </a>
           ) : null}
         </div>
-      </header>
+    </PageHero>
 
+    <div className="container-page pb-10">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
-        <section className="rounded-[var(--radius-card)] border border-line p-6 sm:p-8">
-          <h2 className="mb-6 text-2xl font-semibold tracking-tight">{dict.contact.formTitle}</h2>
+        <section className="surface self-start rounded-[var(--radius-card)] p-6 sm:p-8" data-reveal>
+          <h2 className="text-sheen mb-6 text-2xl font-semibold tracking-tight">{dict.contact.formTitle}</h2>
           <RequestForm
             kind="contact"
             locale={locale}
@@ -80,10 +80,11 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
               <ShopCard key={shop.id} shop={shop} dict={dict} locale={locale} stockCount={counts[shop.id] ?? 0} fallbackWhatsapp={ctx.settings?.whatsapp_number} />
             ))
           ) : (
-            <p className="rounded-[var(--radius-card)] border border-line p-8 text-grey">{dict.contact.noShops}</p>
+            <p className="surface rounded-[var(--radius-card)] p-8 text-grey">{dict.contact.noShops}</p>
           )}
         </section>
       </div>
     </div>
+    </>
   );
 }

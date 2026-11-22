@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { PageHero } from "@/components/site/page-hero";
 import { getPage } from "@/lib/data/public";
 import { formatDate } from "@/lib/format";
 import { intlLocale, type Locale } from "@/lib/i18n";
@@ -47,14 +48,15 @@ export async function ContentPageView({ slug, locale }: { slug: ContentPage["slu
   const page = await getPage(slug, locale);
   if (!page) notFound();
   return (
-    <div className="container-page py-14 sm:py-20">
-      <article className="mx-auto max-w-3xl">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{page.title}</h1>
-        <p className="mt-3 text-xs text-muted">{formatDate(page.updated_at, intlLocale[locale])}</p>
-        <div className="mt-10">
+    <>
+      <PageHero title={page.title} className="[&_.container-page]:max-w-[52rem]">
+        <p className="mt-4 text-xs text-muted">{formatDate(page.updated_at, intlLocale[locale])}</p>
+      </PageHero>
+      <div className="container-page pb-10">
+        <article className="surface mx-auto max-w-3xl rounded-[var(--radius-card)] px-6 py-8 sm:px-10 sm:py-12" data-reveal>
           <RichText body={page.body} />
-        </div>
-      </article>
-    </div>
+        </article>
+      </div>
+    </>
   );
 }

@@ -8,9 +8,9 @@ export default async function NotFound() {
   const locale = isLocale(value) ? value : defaultLocale;
   const dict = getDictionary(locale);
   return (
-    <div className="container-page flex min-h-[50vh] flex-col items-center justify-center py-24 text-center">
-      <p className="eyebrow">404</p>
-      <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{dict.errors.notFoundTitle}</h1>
+    <div className="stage light-grid light-top flex min-h-[60vh] flex-col items-center justify-center px-4 py-24 text-center">
+      <p className="text-sheen-soft font-display text-7xl font-semibold sm:text-8xl">404</p>
+      <h1 className="text-sheen mt-6 text-4xl font-semibold tracking-tight sm:text-5xl">{dict.errors.notFoundTitle}</h1>
       <p className="mt-4 max-w-md text-grey">{dict.errors.notFoundLead}</p>
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         <Link href={`/${locale}`} className={buttonClass("primary")}>

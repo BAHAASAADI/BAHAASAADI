@@ -58,6 +58,7 @@ export function ProductCard({
   displayCurrency,
   rates,
   priority = false,
+  index = 0,
 }: {
   product: ProductWithRelations;
   dict: Dictionary;
@@ -65,15 +66,19 @@ export function ProductCard({
   displayCurrency: string;
   rates: RateTable;
   priority?: boolean;
+  /** Position in the grid, used only to stagger the reveal. */
+  index?: number;
 }) {
   const photo = product.photos[0];
   const title = product.model?.name ?? "iPhone";
   return (
     <Link
       href={`/${locale}/buy/${product.inventory_id}`}
-      className="group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-black transition-colors duration-300 hover:border-grey"
+      className="surface surface-interactive group flex flex-col overflow-hidden rounded-[var(--radius-card)]"
+      data-reveal
+      style={{ ["--reveal-delay" as string]: `${(index % 4) * 70}ms` }}
     >
-      <div className="relative aspect-square overflow-hidden bg-black">
+      <div className="product-stage relative aspect-square overflow-hidden">
         {photo ? (
           <Image
             src={publicPhotoUrl(photo.path)}
@@ -81,20 +86,21 @@ export function ProductCard({
             fill
             priority={priority}
             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
+            className="object-cover transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.04]"
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-2 border-b border-line text-center">
-            <span className="text-2xl font-semibold tracking-tight">{title}</span>
+          <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
+            <span className="text-sheen font-display text-2xl font-semibold tracking-tight">{title}</span>
             <span className="text-xs text-muted">{dict.product.noPhotos}</span>
           </div>
         )}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 to-transparent" aria-hidden="true" />
         <div className="absolute start-3 top-3 flex gap-2">
           {product.status === "reserved" ? <Badge tone="solid">{dict.common.reserved}</Badge> : <Badge>{dict.common.available}</Badge>}
           {product.offer_price != null ? <Badge>{dict.common.offer}</Badge> : null}
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-3 p-5">
+      <div className="flex flex-1 flex-col gap-3 border-t border-white/[0.07] p-5">
         <div>
           <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
           <p className="mt-1 text-sm text-grey">

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
 import { AutoSubmitSelect } from "@/components/site/auto-submit-select";
+import { PageHero } from "@/components/site/page-hero";
 import { ProductCard, ProductGrid } from "@/components/site/product-card";
 import { buttonClass, Field, Input, Select } from "@/components/ui";
 import { convert } from "@/lib/currency";
@@ -187,16 +188,11 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
   );
 
   return (
-    <div className="container-page py-14 sm:py-20">
-      <header className="mb-12 max-w-2xl">
-        <p className="eyebrow">{dict.common.buyCta}</p>
-        <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl">{dict.catalogue.title}</h1>
-        <p className="mt-4 text-lg text-grey">{dict.catalogue.lead}</p>
-      </header>
-
-      <div className="grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)]">
+    <>
+      <PageHero eyebrow={dict.common.buyCta} title={dict.catalogue.title} lead={dict.catalogue.lead} />
+      <div className="container-page grid gap-10 pb-10 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside>
-          <details className="group rounded-[var(--radius-card)] border border-line p-5 lg:hidden">
+          <details className="surface group rounded-[var(--radius-card)] p-5 lg:hidden">
             <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-medium">
               <span className="flex items-center gap-2">
                 <SlidersHorizontal className="h-4 w-4" aria-hidden="true" /> {dict.catalogue.filters}
@@ -208,7 +204,7 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
             </summary>
             <div className="mt-6">{filters}</div>
           </details>
-          <div className="sticky top-24 hidden lg:block">{filters}</div>
+          <div className="surface sticky top-24 hidden rounded-[var(--radius-card)] p-6 lg:block">{filters}</div>
         </aside>
 
         <section aria-live="polite">
@@ -240,14 +236,14 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
           {visible.length ? (
             <ProductGrid>
               {visible.map((p, i) => (
-                <ProductCard key={p.id} product={p} dict={dict} locale={locale} displayCurrency={display} rates={ctx.rates} priority={i < 3} />
+                <ProductCard key={p.id} product={p} dict={dict} locale={locale} displayCurrency={display} rates={ctx.rates} priority={i < 3} index={i} />
               ))}
             </ProductGrid>
           ) : (
-            <div className="rounded-[var(--radius-card)] border border-line px-6 py-20 text-center">
-              <p className="text-2xl font-semibold">{all.length ? dict.catalogue.emptyTitle : dict.home.emptyStockTitle}</p>
+            <div className="surface rounded-[var(--radius-card)] px-6 py-20 text-center">
+              <p className="font-display text-2xl font-semibold">{all.length ? dict.catalogue.emptyTitle : dict.home.emptyStockTitle}</p>
               <p className="mx-auto mt-3 max-w-md text-grey">{all.length ? dict.catalogue.emptyLead : dict.home.emptyStockLead}</p>
-              <div className="mt-8 flex justify-center gap-3">
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
                 {activeFilters ? (
                   <Link href={`/${locale}/buy`} className={buttonClass("primary")}>
                     {dict.catalogue.reset}
@@ -267,7 +263,7 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
                   key={n}
                   href={pageHref(n)}
                   aria-current={n === page ? "page" : undefined}
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border text-sm ${n === page ? "border-white bg-white text-black" : "border-line hover:border-white"}`}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full border text-sm transition-colors duration-300 ${n === page ? "btn-glow border-white bg-white text-black" : "border-white/15 bg-white/[0.03] hover:border-white/70"}`}
                 >
                   {n}
                 </Link>
@@ -276,6 +272,6 @@ export default async function BuyPage({ params, searchParams }: { params: Promis
           ) : null}
         </section>
       </div>
-    </div>
+    </>
   );
 }

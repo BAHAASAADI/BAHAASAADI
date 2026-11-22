@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageHero } from "@/components/site/page-hero";
 import { ShopCard } from "@/components/site/shop-card";
 import { getShopStockCounts, getSiteContext } from "@/lib/data/public";
 import { SITE_URL } from "@/lib/env";
@@ -35,21 +36,22 @@ export default async function ShopsPage({ params }: { params: Promise<{ locale: 
   };
 
   return (
-    <div className="container-page py-14 sm:py-20">
-      {ctx.shops.length ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} /> : null}
-      <header className="mb-12 max-w-2xl">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">{dict.shops.title}</h1>
-        <p className="mt-4 text-lg text-grey">{dict.shops.lead}</p>
-      </header>
+    <>
+    {ctx.shops.length ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} /> : null}
+    <PageHero title={dict.shops.title} lead={dict.shops.lead} />
+    <div className="container-page pb-10">
       {ctx.shops.length ? (
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {ctx.shops.map((shop) => (
-            <ShopCard key={shop.id} shop={shop} dict={dict} locale={locale} stockCount={counts[shop.id] ?? 0} fallbackWhatsapp={ctx.settings?.whatsapp_number} />
+          {ctx.shops.map((shop, i) => (
+            <div key={shop.id} data-reveal style={{ ["--reveal-delay" as string]: `${(i % 3) * 90}ms` }}>
+            <ShopCard shop={shop} dict={dict} locale={locale} stockCount={counts[shop.id] ?? 0} fallbackWhatsapp={ctx.settings?.whatsapp_number} />
+            </div>
           ))}
         </div>
       ) : (
-        <p className="rounded-[var(--radius-card)] border border-line p-8 text-grey">{dict.contact.noShops}</p>
+        <p className="surface rounded-[var(--radius-card)] p-8 text-grey">{dict.contact.noShops}</p>
       )}
     </div>
+    </>
   );
 }

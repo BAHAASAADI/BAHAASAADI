@@ -241,7 +241,7 @@ export function SellWizard(props: Props) {
   }
 
   const choice = (selected: boolean) =>
-    `rounded-2xl border px-5 py-4 text-start transition-colors duration-200 ${selected ? "border-white bg-white text-black" : "border-line hover:border-grey"}`;
+    `rounded-2xl border px-5 py-4 text-start transition-[border-color,background-color,box-shadow] duration-300 ${selected ? "border-white bg-white text-black shadow-[0_10px_40px_-12px_rgba(255,255,255,0.55)]" : "border-white/10 bg-gradient-to-b from-[#111] to-[#080808] hover:border-white/40"}`;
 
   const bandLabel = (b: BatteryBand) => (b.min_pct === 0 ? t(s.batteryBelow, { pct: b.max_pct + 1 }) : `${b.min_pct}–${b.max_pct}%`);
 
@@ -253,8 +253,8 @@ export function SellWizard(props: Props) {
             <span>{t(s.stepOf, { n: step + 1, total: TOTAL_STEPS })}</span>
             <span className="uppercase tracking-[0.18em]">{s.steps[step]}</span>
           </div>
-          <div className="mt-3 h-px w-full bg-line">
-            <div className="h-px bg-white transition-[width] duration-500" style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
+          <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-white/[0.08]">
+            <div className="h-full rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.7)] transition-[width] duration-700 ease-[var(--ease-out-soft)]" style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
           </div>
           {model && step > 0 && step < 7 ? (
             <p className="mt-4 text-sm text-grey">
@@ -270,7 +270,7 @@ export function SellWizard(props: Props) {
       {/* STEP 1 — MODEL */}
       {step === 0 ? (
         <section className="animate-fade-up">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{s.modelTitle}</h2>
+          <h2 className="text-sheen text-3xl font-semibold tracking-tight sm:text-4xl">{s.modelTitle}</h2>
           <div className="relative mt-8">
             <Search className="pointer-events-none absolute start-4 top-1/2 h-4 w-4 -translate-y-1/2 text-grey" aria-hidden="true" />
             <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={s.modelSearch} className="ps-11" aria-label={s.modelSearch} />
@@ -300,7 +300,7 @@ export function SellWizard(props: Props) {
       {/* STEP 2 — STORAGE */}
       {step === 1 && model ? (
         <section className="animate-fade-up">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{s.storageTitle}</h2>
+          <h2 className="text-sheen text-3xl font-semibold tracking-tight sm:text-4xl">{s.storageTitle}</h2>
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {model.storages.map((gb) => (
               <button
@@ -322,7 +322,7 @@ export function SellWizard(props: Props) {
       {/* STEP 3 — CONDITION */}
       {step === 2 ? (
         <section className="animate-fade-up">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{s.conditionTitle}</h2>
+          <h2 className="text-sheen text-3xl font-semibold tracking-tight sm:text-4xl">{s.conditionTitle}</h2>
           <div className="mt-8 grid gap-3">
             {CONDITIONS.map((c, i) => (
               <button
@@ -348,7 +348,7 @@ export function SellWizard(props: Props) {
       {/* STEP 4 — BATTERY */}
       {step === 3 ? (
         <section className="animate-fade-up">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{s.batteryTitle}</h2>
+          <h2 className="text-sheen text-3xl font-semibold tracking-tight sm:text-4xl">{s.batteryTitle}</h2>
           <div className="mt-8 max-w-sm">
             <Field label={s.batteryExact} hint={s.batteryHelp} htmlFor="battery">
               <div className="relative">
@@ -388,9 +388,9 @@ export function SellWizard(props: Props) {
       {/* STEP 5 — FUNCTIONALITY */}
       {step === 4 ? (
         <section className="animate-fade-up">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{s.functionTitle}</h2>
+          <h2 className="text-sheen text-3xl font-semibold tracking-tight sm:text-4xl">{s.functionTitle}</h2>
           <p className="mt-3 text-grey">{s.functionLead}</p>
-          <div className="mt-6 border-t border-line">
+          <div className="mt-6 border-t border-white/10">
             {FUNCTION_KEYS.map((k) => (
               <YesNoRow labels={dict.common} key={k} label={s.questions[k]} value={functional[k]} onChange={(v) => setFunctional((f) => ({ ...f, [k]: v === "yes" }))} />
             ))}
@@ -407,8 +407,8 @@ export function SellWizard(props: Props) {
       {/* STEP 6 — ORIGINAL COMPONENTS */}
       {step === 5 ? (
         <section className="animate-fade-up">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{s.partsTitle}</h2>
-          <div className="mt-6 border-t border-line">
+          <h2 className="text-sheen text-3xl font-semibold tracking-tight sm:text-4xl">{s.partsTitle}</h2>
+          <div className="mt-6 border-t border-white/10">
             {(["screen", "battery", "cameras"] as const).map((k) => (
               <YesNoRow
                 labels={dict.common}
@@ -437,11 +437,11 @@ export function SellWizard(props: Props) {
       {/* STEP 7 — PHOTOS */}
       {step === 6 ? (
         <section className="animate-fade-up">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{s.photosTitle}</h2>
+          <h2 className="text-sheen text-3xl font-semibold tracking-tight sm:text-4xl">{s.photosTitle}</h2>
           <p className="mt-3 text-grey">{s.photosLead}</p>
           <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-4">
             {photos.map((p) => (
-              <div key={p.id} className="relative aspect-square overflow-hidden rounded-xl border border-line">
+              <div key={p.id} className="relative aspect-square overflow-hidden rounded-xl border border-white/10">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={p.preview} alt="" className="h-full w-full object-cover" />
                 <button
@@ -458,7 +458,7 @@ export function SellWizard(props: Props) {
               </div>
             ))}
             {photos.length < MAX_PHOTOS ? (
-              <label className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-line text-sm text-grey transition-colors hover:border-white hover:text-white">
+              <label className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/10 text-sm text-grey transition-colors hover:border-white hover:text-white">
                 <ImagePlus className="h-6 w-6" aria-hidden="true" />
                 {s.addPhotos}
                 <input
@@ -482,12 +482,12 @@ export function SellWizard(props: Props) {
       {/* STEP 8 — ESTIMATE + CONTACT */}
       {step === 7 ? (
         <section className="animate-fade-up">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{s.estimateTitle}</h2>
+          <h2 className="text-sheen text-3xl font-semibold tracking-tight sm:text-4xl">{s.estimateTitle}</h2>
           <p className="mt-2 text-grey">
             {model?.name} · {storage ? formatStorage(storage) : ""} · {condition ? dict.conditions[condition] : ""} · {batteryValue}%
           </p>
 
-          <div className="mt-8 rounded-[var(--radius-card)] border border-line p-6 sm:p-8" aria-live="polite">
+          <div className="surface stage light-top mt-8 rounded-[var(--radius-card)] p-6 sm:p-8" aria-live="polite">
             {estimating ? (
               <p className="flex items-center gap-3 text-grey">
                 <Spinner /> {s.calculating}
@@ -504,7 +504,7 @@ export function SellWizard(props: Props) {
                     {formatMoney(estimate.estimate ?? 0, mainCurrency, intl)}
                   </p>
                 ) : null}
-                <dl className="mt-8 divide-y divide-line border-y border-line text-sm">
+                <dl className="mt-8 divide-y divide-white/[0.07] border-y border-white/10 text-sm">
                   <div className="flex justify-between gap-4 py-3">
                     <dt className="text-grey">{s.basePrice}</dt>
                     <dd dir="ltr">{plainMoney(estimate.base_price ?? 0)}</dd>
@@ -528,13 +528,13 @@ export function SellWizard(props: Props) {
                 </Button>
               </div>
             ) : null}
-            <p className="mt-6 border-t border-line pt-6 text-sm leading-relaxed text-white">{s.disclaimer}</p>
+            <p className="mt-6 border-t border-white/10 pt-6 text-sm leading-relaxed text-white">{s.disclaimer}</p>
             <Link href={`/${locale}/trade-in-conditions`} className="mt-3 inline-block text-xs text-grey underline-offset-4 hover:text-white hover:underline">
               {s.conditionsLink}
             </Link>
           </div>
 
-          <form onSubmit={submit} className="mt-10 rounded-[var(--radius-card)] border border-line p-6 sm:p-8" noValidate>
+          <form onSubmit={submit} className="surface mt-10 rounded-[var(--radius-card)] p-6 sm:p-8" noValidate>
             <h3 className="text-2xl font-semibold tracking-tight">{s.contactTitle}</h3>
             <p className="mt-2 text-sm text-grey">{s.contactLead}</p>
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
@@ -578,11 +578,11 @@ export function SellWizard(props: Props) {
 
       {/* DONE */}
       {step === 8 ? (
-        <section className="animate-fade-up rounded-[var(--radius-card)] border border-line p-8 text-center sm:p-12">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-black">
+        <section className="surface stage light-top animate-fade-up rounded-[var(--radius-card)] p-8 text-center sm:p-12">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-black btn-glow">
             <Check className="h-7 w-7" aria-hidden="true" />
           </span>
-          <h2 className="mt-6 text-3xl font-semibold tracking-tight">{s.successTitle}</h2>
+          <h2 className="text-sheen mt-6 text-3xl font-semibold tracking-tight">{s.successTitle}</h2>
           <p className="mx-auto mt-3 max-w-md text-grey" data-testid="trade-in-reference">
             {t(s.successLead, { ref: reference ?? "" })}
           </p>
@@ -601,7 +601,7 @@ export function SellWizard(props: Props) {
 
       {/* NAVIGATION */}
       {step > 0 && step < 8 ? (
-        <div className="mt-12 flex items-center justify-between gap-4 border-t border-line pt-6">
+        <div className="mt-12 flex items-center justify-between gap-4 border-t border-white/10 pt-6">
           <Button type="button" variant="ghost" onClick={() => go(step - 1)}>
             <ArrowLeft className="h-4 w-4 rtl:rotate-180" aria-hidden="true" /> {dict.common.back}
           </Button>
@@ -637,7 +637,7 @@ function YesNoRow({
   const current =
     value === null ? null : typeof value === "boolean" ? (value ? "yes" : "no") : value === "original" ? "yes" : value === "replaced" ? "no" : "unsure";
   return (
-    <div className="flex flex-col gap-3 border-b border-line py-5 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 border-b border-white/10 py-5 sm:flex-row sm:items-center sm:justify-between">
       <p className="text-base">{label}</p>
       <div className="flex shrink-0 gap-2" role="radiogroup" aria-label={label}>
         {options.map((o) => (
@@ -647,7 +647,7 @@ function YesNoRow({
             role="radio"
             aria-checked={current === o.v}
             onClick={() => onChange(o.v)}
-            className={`h-10 min-w-16 rounded-full border px-4 text-sm transition-colors ${current === o.v ? "border-white bg-white text-black" : "border-line hover:border-grey"}`}
+            className={`h-10 min-w-16 rounded-full border px-4 text-sm transition-colors ${current === o.v ? "border-white bg-white text-black" : "border-white/12 bg-white/[0.03] hover:border-white/50"}`}
           >
             {o.label}
           </button>

@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Noto_Sans_Arabic } from "next/font/google";
+import { Inter, Noto_Sans_Arabic, Space_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
+import { RevealObserver } from "@/components/site/motion";
 import { TopBar } from "@/components/site/top-bar";
 import { getSiteContext, type SiteContext } from "@/lib/data/public";
 import { SITE_URL } from "@/lib/env";
@@ -13,6 +14,7 @@ import { dir, getDictionary, isLocale, locales } from "@/lib/i18n";
 export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter", display: "swap" });
+const grotesk = Space_Grotesk({ subsets: ["latin", "latin-ext"], variable: "--font-grotesk", display: "swap", weight: ["400", "500", "600", "700"] });
 const arabic = Noto_Sans_Arabic({ subsets: ["arabic"], variable: "--font-arabic", display: "swap", weight: ["400", "500", "600"] });
 
 export const viewport: Viewport = {
@@ -60,7 +62,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const ctx = await safeContext();
 
   return (
-    <html lang={locale} dir={dir(locale)} className={`${inter.variable} ${arabic.variable}`}>
+    <html lang={locale} dir={dir(locale)} className={`${inter.variable} ${grotesk.variable} ${arabic.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
@@ -86,6 +88,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
           {children}
         </main>
         <Footer ctx={ctx} dict={dict} locale={locale} />
+        <RevealObserver />
       </body>
     </html>
   );

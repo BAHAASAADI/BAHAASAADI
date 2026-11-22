@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageHero } from "@/components/site/page-hero";
 import { SellWizard } from "@/components/sell/sell-wizard";
 import { getSellContext, getSiteContext } from "@/lib/data/public";
 import { getDictionary, intlLocale, isLocale } from "@/lib/i18n";
@@ -18,13 +19,10 @@ export default async function SellPage({ params }: { params: Promise<{ locale: s
   const [ctx, sell] = await Promise.all([getSiteContext(), getSellContext()]);
 
   return (
-    <div className="container-page py-14 sm:py-20">
+    <>
+    <PageHero eyebrow={dict.common.sellCta} title={dict.sell.title} lead={dict.sell.lead} className="[&_.container-page]:max-w-[52rem]" />
+    <div className="container-page pb-10">
       <div className="mx-auto max-w-3xl">
-        <header className="mb-12">
-          <p className="eyebrow">{dict.common.sellCta}</p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl">{dict.sell.title}</h1>
-          <p className="mt-4 text-lg text-grey">{dict.sell.lead}</p>
-        </header>
         {ctx.configured && sell.models.length ? (
           <SellWizard
             locale={locale}
@@ -47,9 +45,10 @@ export default async function SellPage({ params }: { params: Promise<{ locale: s
             whatsappNumber={ctx.whatsappNumber}
           />
         ) : (
-          <p className="rounded-[var(--radius-card)] border border-line p-8 text-grey">{dict.common.notConfigured}</p>
+          <p className="surface rounded-[var(--radius-card)] p-8 text-grey">{dict.common.notConfigured}</p>
         )}
       </div>
     </div>
+    </>
   );
 }

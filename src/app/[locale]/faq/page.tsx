@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageHero } from "@/components/site/page-hero";
 import { getFaqs } from "@/lib/data/public";
 import { getDictionary, isLocale } from "@/lib/i18n";
 
@@ -22,12 +23,13 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
   };
 
   return (
-    <div className="container-page py-14 sm:py-20">
-      {faqs.length ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} /> : null}
+    <>
+    {faqs.length ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} /> : null}
+    <PageHero title={dict.faq.title} className="[&_.container-page]:max-w-[52rem]" />
+    <div className="container-page pb-10">
       <div className="mx-auto max-w-3xl">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">{dict.faq.title}</h1>
         {faqs.length ? (
-          <div className="mt-12 divide-y divide-line border-y border-line">
+          <div className="surface divide-y divide-white/[0.07] rounded-[var(--radius-card)] px-6 sm:px-8" data-reveal>
             {faqs.map((f) => (
               <details key={f.id} className="group py-6">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-medium">
@@ -41,9 +43,10 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
             ))}
           </div>
         ) : (
-          <p className="mt-10 text-grey">{dict.faq.empty}</p>
+          <p className="text-grey">{dict.faq.empty}</p>
         )}
       </div>
     </div>
+    </>
   );
 }

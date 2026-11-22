@@ -40,7 +40,7 @@ export function Header({ locale, labels }: { locale: Locale; labels: NavLabels }
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/80">
+    <header className="glass sticky top-0 z-40 border-b border-white/[0.08]">
       <div className="container-page flex h-16 items-center justify-between gap-6">
         <Link href={`/${locale}`} aria-label="iZone" className="shrink-0">
           <Logo className="w-[84px] sm:w-[96px]" sizes="96px" />
@@ -51,7 +51,7 @@ export function Header({ locale, labels }: { locale: Locale; labels: NavLabels }
             <Link
               key={l.href}
               href={l.href}
-              className={`text-sm tracking-wide transition-colors ${isActive(l.href) ? "text-white" : "text-grey hover:text-white"}`}
+              className={`relative py-1 text-sm tracking-wide transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-center after:bg-white after:transition-transform after:duration-300 ${isActive(l.href) ? "text-white after:scale-x-100" : "text-grey after:scale-x-0 hover:text-white hover:after:scale-x-100"}`}
             >
               {l.label}
             </Link>
@@ -62,7 +62,7 @@ export function Header({ locale, labels }: { locale: Locale; labels: NavLabels }
           <Link
             href={`/${locale}/search`}
             aria-label={labels.search}
-            className="flex h-10 w-10 items-center justify-center rounded-full text-grey transition-colors hover:text-white"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-grey transition-colors hover:bg-white/[0.06] hover:text-white"
           >
             <Search className="h-5 w-5" aria-hidden="true" />
           </Link>
@@ -80,12 +80,16 @@ export function Header({ locale, labels }: { locale: Locale; labels: NavLabels }
       </div>
 
       {open ? (
-        <nav id="mobile-nav" aria-label="Mobile" className="h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line bg-black md:hidden">
+        <nav id="mobile-nav" aria-label="Mobile" className="stage light-top h-[calc(100dvh-4rem)] overflow-y-auto border-t border-white/[0.08] bg-black md:hidden">
           <ul className="container-page py-4">
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="flex items-center justify-between border-b border-line py-5 text-2xl font-medium tracking-tight">
+            {links.map((l, i) => (
+              <li key={l.href} className="animate-rise" style={{ ["--rise-delay" as string]: `${i * 50}ms` }}>
+                <Link
+                  href={l.href}
+                  className={`font-display flex items-center justify-between border-b border-white/10 py-5 text-3xl font-medium tracking-tight ${isActive(l.href) ? "text-white" : "text-grey"}`}
+                >
                   {l.label}
+                  <span className="text-base text-muted" aria-hidden="true">0{i + 1}</span>
                 </Link>
               </li>
             ))}
