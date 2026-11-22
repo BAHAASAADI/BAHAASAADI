@@ -241,7 +241,7 @@ export function SellWizard(props: Props) {
   }
 
   const choice = (selected: boolean) =>
-    `rounded-2xl border px-5 py-4 text-start transition-[border-color,background-color,box-shadow] duration-300 ${selected ? "border-white bg-white/[0.12] text-white shadow-[0_0_28px_-6px_rgb(var(--glow)/0.6)]" : "border-white/10 bg-[linear-gradient(180deg,var(--surface-a),var(--surface-b))] hover:border-white/40"}`;
+    `rounded-2xl border px-5 py-4 text-start transition-[border-color,background-color,box-shadow] duration-300 ${selected ? "border-white bg-white text-black shadow-[0_10px_40px_-12px_rgb(var(--glow)/calc(0.55*var(--glow-k)))]" : "border-white/10 bg-[linear-gradient(180deg,var(--surface-a),var(--surface-b))] hover:border-white/40"}`;
 
   const bandLabel = (b: BatteryBand) => (b.min_pct === 0 ? t(s.batteryBelow, { pct: b.max_pct + 1 }) : `${b.min_pct}–${b.max_pct}%`);
 
@@ -288,7 +288,7 @@ export function SellWizard(props: Props) {
                 }}
               >
                 <span className="block font-medium">{m.name}</span>
-                <span className={`mt-1 block text-xs ${modelId === m.id ? "text-white/70" : "text-grey"}`}>
+                <span className={`mt-1 block text-xs ${modelId === m.id ? "text-black/60" : "text-grey"}`}>
                   {bestPrices[m.id] ? t(s.upTo, { price: money(bestPrices[m.id]) }) : m.storages.map(formatStorage).join(" · ")}
                 </span>
               </button>
@@ -334,10 +334,10 @@ export function SellWizard(props: Props) {
                   go(3);
                 }}
               >
-                <span className={`text-sm ${condition === c ? "text-white/60" : "text-muted"}`}>{i + 1}</span>
+                <span className={`text-sm ${condition === c ? "text-black/50" : "text-muted"}`}>{i + 1}</span>
                 <span>
                   <span className="block font-semibold uppercase tracking-wide">{dict.conditions[c]}</span>
-                  <span className={`mt-1 block text-sm ${condition === c ? "text-white/80" : "text-grey"}`}>{dict.conditionHelp[c]}</span>
+                  <span className={`mt-1 block text-sm ${condition === c ? "text-black/70" : "text-grey"}`}>{dict.conditionHelp[c]}</span>
                 </span>
               </button>
             ))}
@@ -579,7 +579,7 @@ export function SellWizard(props: Props) {
       {/* DONE */}
       {step === 8 ? (
         <section className="surface stage light-top animate-fade-up rounded-[var(--radius-card)] p-8 text-center sm:p-12">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-white bg-white/[0.12] text-white btn-glow">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-black btn-glow">
             <Check className="h-7 w-7" aria-hidden="true" />
           </span>
           <h2 className="text-sheen mt-6 text-3xl font-semibold tracking-tight">{s.successTitle}</h2>
@@ -647,7 +647,7 @@ function YesNoRow({
             role="radio"
             aria-checked={current === o.v}
             onClick={() => onChange(o.v)}
-            className={`h-10 min-w-16 rounded-full border px-4 text-sm transition-colors ${current === o.v ? "border-white bg-white/[0.12] text-white shadow-[0_0_28px_-6px_rgb(var(--glow)/0.6)]" : "border-white/12 bg-white/[0.03] hover:border-white/50"}`}
+            className={`h-10 min-w-16 rounded-full border px-4 text-sm transition-colors ${current === o.v ? "border-white bg-white text-black" : "border-white/12 bg-white/[0.03] hover:border-white/50"}`}
           >
             {o.label}
           </button>

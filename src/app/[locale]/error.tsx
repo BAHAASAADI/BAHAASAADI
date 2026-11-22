@@ -22,7 +22,7 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
       <button
         type="button"
         onClick={reset}
-        className="mt-8 inline-flex h-11 items-center btn-glow rounded-full border border-white bg-white/[0.08] px-6 text-sm font-medium text-white transition-colors hover:bg-white/[0.16]"
+        className="mt-8 inline-flex h-11 items-center btn-glow rounded-full border border-white bg-white px-6 text-sm font-medium text-black transition-colors hover:bg-white/85"
       >
         {text.retry}
       </button>
