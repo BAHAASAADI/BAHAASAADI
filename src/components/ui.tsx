@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 
-type ButtonVariant = "primary" | "outline" | "ghost" | "danger";
+type ButtonVariant = "primary" | "outline" | "ghost" | "danger" | "whatsapp";
 type ButtonSize = "sm" | "md" | "lg";
 
 /** Strict black & white buttons: white on black (primary) or black with a thin border (outline). */
@@ -14,7 +14,8 @@ export function buttonClass(variant: ButtonVariant = "outline", size: ButtonSize
   };
   const variants: Record<ButtonVariant, string> = {
     primary: "bg-white text-black border border-white btn-glow hover:bg-white/85",
-    outline: "bg-white/[0.03] text-white border border-white/15 hover:border-white/60 hover:bg-white/[0.07]",
+    outline: "bg-white/[0.03] text-white border border-white/15 hover:border-white/60 hover:bg-white/[0.07] hover-glow",
+    whatsapp: "btn-whatsapp text-white border border-[#25D366]",
     ghost: "bg-transparent text-grey hover:text-white",
     danger: "bg-black text-white border border-line hover:border-white hover:bg-white hover:text-black",
   };

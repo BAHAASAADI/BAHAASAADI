@@ -40,6 +40,26 @@ export function RevealObserver() {
   return null;
 }
 
+/** A short pulse of light wherever something clickable is pressed. */
+export function ClickLight() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const onDown = (e: PointerEvent) => {
+      const target = (e.target as Element | null)?.closest("a, button, summary, select, label, [role='button']");
+      if (!target) return;
+      const light = document.createElement("span");
+      light.className = target.matches(".btn-whatsapp, .wa-link") ? "click-light is-wa" : "click-light";
+      light.style.left = `${e.clientX}px`;
+      light.style.top = `${e.clientY}px`;
+      document.body.appendChild(light);
+      light.addEventListener("animationend", () => light.remove(), { once: true });
+    };
+    document.addEventListener("pointerdown", onDown, { passive: true });
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, []);
+  return null;
+}
+
 /** Moves its content slightly against the scroll for depth (transform only). */
 export function Parallax({ children, speed = 0.12, className = "" }: { children: ReactNode; speed?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);

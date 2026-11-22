@@ -67,7 +67,7 @@ export function ShopCard({
       </dl>
       <div className="mt-8 flex flex-wrap gap-2">
         {wa ? (
-          <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-4 text-xs transition-colors duration-300 hover:border-white/70 hover:bg-white/[0.07]">
+          <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-whatsapp inline-flex h-10 items-center gap-2 rounded-full border border-[#25D366] px-4 text-xs font-medium text-white">
             <WhatsAppIcon className="h-4 w-4" /> {dict.contact.whatsapp}
           </a>
         ) : null}

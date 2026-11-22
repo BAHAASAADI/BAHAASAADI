@@ -47,7 +47,7 @@ export function TopBar({ ctx, dict, locale }: { ctx: SiteContext; dict: Dictiona
             </a>
           ) : null}
           {wa ? (
-            <a href={wa} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-white">
+            <a href={wa} target="_blank" rel="noopener noreferrer" className="wa-link flex items-center gap-1.5">
               <WhatsAppIcon className="h-3.5 w-3.5" />
               {dict.topbar.whatsapp}
             </a>

@@ -144,7 +144,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
           <div className="mt-8 grid gap-3">
             {wa ? (
-              <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("primary", "lg", "w-full")}>
+              <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("whatsapp", "lg", "w-full")}>
                 <WhatsAppIcon className="h-5 w-5" /> {dict.product.whatsapp}
               </a>
             ) : null}

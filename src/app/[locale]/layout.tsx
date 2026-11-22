@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
-import { RevealObserver } from "@/components/site/motion";
+import { ClickLight, RevealObserver } from "@/components/site/motion";
 import { TopBar } from "@/components/site/top-bar";
 import { getSiteContext, type SiteContext } from "@/lib/data/public";
 import { SITE_URL } from "@/lib/env";
@@ -18,8 +18,8 @@ const grotesk = Space_Grotesk({ subsets: ["latin", "latin-ext"], variable: "--fo
 const arabic = Noto_Sans_Arabic({ subsets: ["arabic"], variable: "--font-arabic", display: "swap", weight: ["400", "500", "600"] });
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
-  colorScheme: "light",
+  themeColor: "#000000",
+  colorScheme: "dark",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -62,7 +62,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const ctx = await safeContext();
 
   return (
-    <html lang={locale} dir={dir(locale)} className={`theme-light ${inter.variable} ${grotesk.variable} ${arabic.variable}`}>
+    <html lang={locale} dir={dir(locale)} className={`${inter.variable} ${grotesk.variable} ${arabic.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
@@ -89,6 +89,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         </main>
         <Footer ctx={ctx} dict={dict} locale={locale} />
         <RevealObserver />
+        <ClickLight />
       </body>
     </html>
   );

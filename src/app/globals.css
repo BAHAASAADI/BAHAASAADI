@@ -455,3 +455,95 @@ html.theme-light .brand-logo.brand-logo-glow {
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   Interaction light: everything clickable glows when hovered, focused or
+   pressed, and each click sends a short pulse of light from the pointer.
+   ========================================================================== */
+@utility text-glow {
+  text-shadow: 0 0 14px rgb(var(--glow) / calc(0.55 * var(--glow-k)));
+}
+
+@layer components {
+  /* Large backlit Apple mark behind the hero name */
+  .apple-backlight {
+    color: rgb(var(--glow) / calc(0.085 * var(--glow-k)));
+    filter: drop-shadow(0 0 60px rgb(var(--glow) / calc(0.22 * var(--glow-k)))) drop-shadow(0 0 140px rgb(var(--glow) / calc(0.14 * var(--glow-k))));
+    z-index: 0;
+  }
+
+  .hover-glow {
+    transition-property: background-color, border-color, box-shadow, transform;
+  }
+  @media (hover: hover) {
+    .hover-glow:hover {
+      box-shadow: 0 0 28px -6px rgb(var(--glow) / calc(0.45 * var(--glow-k)));
+    }
+  }
+
+  /* WhatsApp: the only colour on the site, a lit green */
+  .btn-whatsapp {
+    background: linear-gradient(180deg, #2fe476, #1fb957);
+    color: #fff;
+    box-shadow:
+      0 0 0 1px rgb(37 211 102 / 0.9),
+      0 10px 36px -6px rgb(37 211 102 / 0.6),
+      inset 0 1px 0 rgb(255 255 255 / 0.25);
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.3s ease,
+      filter 0.3s ease;
+  }
+  .btn-whatsapp:hover,
+  .btn-whatsapp:focus-visible {
+    filter: brightness(1.06);
+    box-shadow:
+      0 0 0 1px #25d366,
+      0 14px 54px -4px rgb(37 211 102 / 0.85),
+      inset 0 1px 0 rgb(255 255 255 / 0.3);
+  }
+  .wa-link {
+    color: #25d366;
+    text-shadow: 0 0 12px rgb(37 211 102 / 0.55);
+  }
+  .wa-link:hover {
+    text-shadow: 0 0 18px rgb(37 211 102 / 0.9);
+  }
+}
+
+:is(a, button, summary, select, [role="button"]):focus-visible {
+  box-shadow: 0 0 0 1px rgb(var(--glow) / 0.8), 0 0 24px -2px rgb(var(--glow) / calc(0.5 * var(--glow-k)));
+}
+:is(a, button, summary, [role="button"]):active {
+  filter: brightness(1.15);
+}
+
+.click-light {
+  position: fixed;
+  z-index: 100;
+  width: 140px;
+  height: 140px;
+  margin: -70px 0 0 -70px;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgb(var(--glow) / calc(0.45 * var(--glow-k))) 0%, rgb(var(--glow) / calc(0.12 * var(--glow-k))) 35%, transparent 70%);
+  animation: izone-click-light 0.55s var(--ease-out-soft) forwards;
+}
+.click-light.is-wa {
+  background: radial-gradient(circle, rgb(37 211 102 / 0.55) 0%, rgb(37 211 102 / 0.15) 35%, transparent 70%);
+}
+@keyframes izone-click-light {
+  from {
+    opacity: 1;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .click-light {
+    display: none;
+  }
+}

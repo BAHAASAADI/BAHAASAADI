@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, ArrowUpRight, Mail, Phone, Star } from "lucide-react";
-import { Logo, WhatsAppIcon } from "@/components/brand";
+import { AppleLogo, Logo, WhatsAppIcon } from "@/components/brand";
 import { DeviceVisual } from "@/components/site/device";
 import { Parallax } from "@/components/site/motion";
 import { ProductCard, ProductGrid } from "@/components/site/product-card";
@@ -48,8 +48,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <div className="container-page relative">
           <div className="relative flex flex-col items-center text-center">
             <div className="glow-orb animate-breathe left-1/2 top-1/2 h-[22rem] w-[min(110vw,56rem)] -translate-x-1/2 -translate-y-1/2" aria-hidden="true" />
-            <h1 className="animate-rise relative w-full">
-              <Logo priority className="brand-logo-glow mx-auto w-[min(86vw,760px)]" sizes="(min-width: 900px) 760px, 86vw" />
+            {/* Large backlit Apple mark behind the name */}
+            <AppleLogo className="apple-backlight animate-breathe pointer-events-none absolute left-1/2 top-1/2 h-[min(80vw,26rem)] w-auto -translate-x-1/2 -translate-y-[44%]" />
+            <h1 className="animate-rise relative flex w-full items-center justify-center gap-[3vw] sm:gap-6">
+              <AppleLogo className="brand-logo-glow h-auto w-[min(13vw,108px)] shrink-0 text-white" />
+              <Logo priority className="brand-logo-glow w-[min(70vw,640px)]" sizes="(min-width: 900px) 640px, 70vw" />
             </h1>
             <p className="animate-rise relative mt-5 ps-[0.42em] text-[0.7rem] tracking-[0.42em] text-white sm:mt-7 sm:text-base" style={{ ["--rise-delay" as string]: "150ms" }}>
               {dict.common.slogan}
@@ -166,7 +169,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <p className="mx-auto mt-3 max-w-md text-grey">{dict.home.emptyStockLead}</p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 {wa ? (
-                  <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("primary")}>
+                  <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("whatsapp")}>
                     <WhatsAppIcon className="h-4 w-4" /> WhatsApp
                   </a>
                 ) : null}
@@ -318,7 +321,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <p className="relative mx-auto mt-4 max-w-md text-grey">{dict.home.contactLead}</p>
             <div className="relative mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
               {wa ? (
-                <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("primary")}>
+                <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("whatsapp")}>
                   <WhatsAppIcon className="h-4 w-4" /> WhatsApp
                 </a>
               ) : null}

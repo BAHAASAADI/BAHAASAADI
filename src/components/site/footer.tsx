@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FacebookIcon, InstagramIcon, Logo, TikTokIcon } from "@/components/brand";
+import { AppleLogo, FacebookIcon, InstagramIcon, Logo, TikTokIcon } from "@/components/brand";
 import type { SiteContext } from "@/lib/data/public";
 import type { Dictionary, Locale } from "@/lib/i18n";
 
@@ -15,7 +15,10 @@ export function Footer({ ctx, dict, locale }: { ctx: SiteContext; dict: Dictiona
       <hr className="light-rule" />
       <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <Logo className="brand-logo-glow w-40" sizes="160px" />
+          <div className="flex items-center gap-3">
+            <AppleLogo className="brand-logo-glow h-9 w-auto text-white" />
+            <Logo className="brand-logo-glow w-40" sizes="160px" />
+          </div>
           <p className="mt-3 text-[0.68rem] tracking-[0.34em] text-white">{dict.common.slogan}</p>
           {social.length ? (
             <div className="mt-8">
@@ -38,16 +41,16 @@ export function Footer({ ctx, dict, locale }: { ctx: SiteContext; dict: Dictiona
           ) : null}
         </div>
         <nav aria-label="Footer" className="grid content-start gap-3 text-sm">
-          <Link className="text-grey transition-colors hover:text-white" href={`/${locale}/buy`}>{dict.nav.buy}</Link>
-          <Link className="text-grey transition-colors hover:text-white" href={`/${locale}/sell`}>{dict.nav.sell}</Link>
-          <Link className="text-grey transition-colors hover:text-white" href={`/${locale}/shops`}>{dict.nav.shops}</Link>
-          <Link className="text-grey transition-colors hover:text-white" href={`/${locale}/faq`}>{dict.nav.faq}</Link>
-          <Link className="text-grey transition-colors hover:text-white" href={`/${locale}/contact`}>{dict.nav.contact}</Link>
+          <Link className="text-grey transition-[color,text-shadow] hover:text-white hover:text-glow" href={`/${locale}/buy`}>{dict.nav.buy}</Link>
+          <Link className="text-grey transition-[color,text-shadow] hover:text-white hover:text-glow" href={`/${locale}/sell`}>{dict.nav.sell}</Link>
+          <Link className="text-grey transition-[color,text-shadow] hover:text-white hover:text-glow" href={`/${locale}/shops`}>{dict.nav.shops}</Link>
+          <Link className="text-grey transition-[color,text-shadow] hover:text-white hover:text-glow" href={`/${locale}/faq`}>{dict.nav.faq}</Link>
+          <Link className="text-grey transition-[color,text-shadow] hover:text-white hover:text-glow" href={`/${locale}/contact`}>{dict.nav.contact}</Link>
         </nav>
         <nav aria-label="Legal" className="grid content-start gap-3 text-sm">
-          <Link className="text-grey transition-colors hover:text-white" href={`/${locale}/privacy`}>{dict.footer.privacy}</Link>
-          <Link className="text-grey transition-colors hover:text-white" href={`/${locale}/terms`}>{dict.footer.terms}</Link>
-          <Link className="text-grey transition-colors hover:text-white" href={`/${locale}/trade-in-conditions`}>{dict.footer.tradeIn}</Link>
+          <Link className="text-grey transition-[color,text-shadow] hover:text-white hover:text-glow" href={`/${locale}/privacy`}>{dict.footer.privacy}</Link>
+          <Link className="text-grey transition-[color,text-shadow] hover:text-white hover:text-glow" href={`/${locale}/terms`}>{dict.footer.terms}</Link>
+          <Link className="text-grey transition-[color,text-shadow] hover:text-white hover:text-glow" href={`/${locale}/trade-in-conditions`}>{dict.footer.tradeIn}</Link>
         </nav>
       </div>
       <div className="container-page border-t border-white/[0.08] py-6 text-xs leading-relaxed text-muted">

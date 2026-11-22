@@ -32,7 +32,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     <PageHero title={dict.contact.title} lead={dict.contact.lead}>
         <div className="mt-8 flex flex-wrap gap-3">
           {wa ? (
-            <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("primary")}>
+            <a href={wa} target="_blank" rel="noopener noreferrer" className={buttonClass("whatsapp")}>
               <WhatsAppIcon className="h-4 w-4" /> {dict.contact.whatsapp}
             </a>
           ) : null}

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
-import { Logo } from "@/components/brand";
+import { AppleLogo, Logo } from "@/components/brand";
 import type { Locale } from "@/lib/i18n/config";
 
 interface NavLabels {
@@ -42,7 +42,8 @@ export function Header({ locale, labels }: { locale: Locale; labels: NavLabels }
   return (
     <header className="glass sticky top-0 z-40 border-b border-white/[0.08]">
       <div className="container-page flex h-16 items-center justify-between gap-6">
-        <Link href={`/${locale}`} aria-label="iZone" className="shrink-0">
+        <Link href={`/${locale}`} aria-label="iZone" className="flex shrink-0 items-center gap-2">
+          <AppleLogo className="h-[22px] w-auto text-white sm:h-[25px]" />
           <Logo className="w-[84px] sm:w-[96px]" sizes="96px" />
         </Link>
 
@@ -51,7 +52,7 @@ export function Header({ locale, labels }: { locale: Locale; labels: NavLabels }
             <Link
               key={l.href}
               href={l.href}
-              className={`relative py-1 text-sm tracking-wide transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-center after:bg-white after:transition-transform after:duration-300 ${isActive(l.href) ? "text-white after:scale-x-100" : "text-grey after:scale-x-0 hover:text-white hover:after:scale-x-100"}`}
+              className={`relative py-1 text-sm tracking-wide transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-center after:bg-white after:transition-transform after:duration-300 ${isActive(l.href) ? "text-white after:scale-x-100 text-glow" : "text-grey after:scale-x-0 hover:text-white hover:after:scale-x-100 hover:text-glow"}`}
             >
               {l.label}
             </Link>

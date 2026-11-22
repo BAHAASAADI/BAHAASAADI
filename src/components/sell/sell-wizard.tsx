@@ -567,7 +567,7 @@ export function SellWizard(props: Props) {
                 )}
               </Button>
               {waLink ? (
-                <a href={waLink} target="_blank" rel="noopener noreferrer" className={buttonClass("outline", "lg", "sm:flex-1")}>
+                <a href={waLink} target="_blank" rel="noopener noreferrer" className={buttonClass("whatsapp", "lg", "sm:flex-1")}>
                   <WhatsAppIcon className="h-5 w-5" /> {s.whatsapp}
                 </a>
               ) : null}
@@ -588,7 +588,7 @@ export function SellWizard(props: Props) {
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             {waLink ? (
-              <a href={waLink} target="_blank" rel="noopener noreferrer" className={buttonClass("primary", "lg")}>
+              <a href={waLink} target="_blank" rel="noopener noreferrer" className={buttonClass("whatsapp", "lg")}>
                 <WhatsAppIcon className="h-5 w-5" /> {s.whatsapp}
               </a>
             ) : null}
